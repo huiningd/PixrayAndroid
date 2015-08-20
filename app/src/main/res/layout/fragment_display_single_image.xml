@@ -1,0 +1,99 @@
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gallery_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+        />
+
+    <LinearLayout
+        android:id="@+id/singleImageAndInfo"
+        android:orientation="vertical"
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.android.volley.toolbox.NetworkImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/singleImagePic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+        </com.android.volley.toolbox.NetworkImageView>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/singleImageInfo"
+                android:orientation="vertical"
+                android:layout_below="@+id/app_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/singleImageLabel"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:id="@+id/currentScore">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/score"
+                        android:id="@+id/scoreIs"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/scoreColor"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/change_score"
+                        android:id="@+id/changeScore"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/singleImageSample"
+                    android:padding="5dp"
+                    android:text="@string/coming_soon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/singleImageScreen"
+                    android:padding="5dp"
+                    android:text="@string/coming_soon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/singleImageCondition"
+                    android:padding="5dp"
+                    android:text="@string/coming_soon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

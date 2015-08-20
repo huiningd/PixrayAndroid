@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.navercorp.volleyextensions.view.TwoLevelDoubleTapZoomNetworkImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/zoom_networkimageview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    />

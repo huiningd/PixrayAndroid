@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PixrayAndroid</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="project_list">Project List</string>
+    <string name="plate_list">Plate List</string>
+    <string name="image_grid">Plate Overview</string>
+    <string name="single_image">Single Drop Image</string>
+    <string name="image_info">Info</string>
+    <string name="select_date">Change date</string>
+    <string name="select_type">Change type</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="submit">Submit</string>
+    <string name="date_selector_title">Please select a date:</string>
+    <string name="type_selector_title">Please select a type:</string>
+    <string name="gallery_info_title">Current plate info:</string>
+
+    <string name="network_unavailable">Network connection is NOT available.</string>
+    <string name="no_image">There is no image in this date. Please click DATE to select another date.</string>
+
+    <string name="choose_score_below">Choose a score below:</string>
+    <string name="score">Score:</string>
+    <string name="change_score">Change Score</string>
+    <string name="coming_soon">Coming soon!</string>
+
+</resources>
