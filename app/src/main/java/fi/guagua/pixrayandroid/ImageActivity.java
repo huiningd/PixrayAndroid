@@ -3,23 +3,12 @@ package fi.guagua.pixrayandroid;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ImageActivity extends ActionBarActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener,
@@ -137,7 +126,10 @@ public class ImageActivity extends ActionBarActivity implements
         ImageFragment imageFrag = (ImageFragment) getFragmentManager()
                 .findFragmentById(R.id.singleImageAndInfo);
 
-        sendNewScoreBackToServer(scoreId);
+        // Send now score back to server.
+        String url = Urls.urlPutNewScore(mImage, scoreId);
+        Log.d(TAG, "url PUT new score: " + url);
+        PixrayAPI.putDataToServer(getApplicationContext(), url);
 
         // TODO: update new score in mImage
 
@@ -155,40 +147,6 @@ public class ImageActivity extends ActionBarActivity implements
         }
     }
 
-    private void sendNewScoreBackToServer(int scoreId) {
-        final Context appContext = getApplicationContext();
-        VolleySingleton volleySingleton = VolleySingleton.getInstance(appContext);
-        RequestQueue requestQueue = volleySingleton.getRequestQueue();
-        String url = Urls.urlPutNewScore(mImage, scoreId);
-        Log.d(TAG, "url PUT new score: " + url);
 
-        // Post params to be sent to the server
-        //HashMap<String, Integer> params = new HashMap<>();
-        //params.put("new_score", selectedId);
-
-        JsonObjectRequest req = new JsonObjectRequest(
-                Request.Method.PUT,
-                url,
-                (String)null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            VolleyLog.v("Response:%n %s", response.toString(4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.e("Error: ", error.getMessage());
-                        //Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-        // add the request object to the queue to be executed
-        requestQueue.add(req);
-    }
 
 }

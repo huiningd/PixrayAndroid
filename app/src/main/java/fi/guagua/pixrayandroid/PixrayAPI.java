@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PixrayAPI {
@@ -43,6 +44,35 @@ public class PixrayAPI {
                 });
 
         requestQueue.add(request);
+    }
+
+    public static void putDataToServer(final Context appContext, final String url) {
+        VolleySingleton volleySingleton = VolleySingleton.getInstance(appContext);
+        RequestQueue requestQueue = volleySingleton.getRequestQueue();
+
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                (String)null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response:%n %s", response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e("Error: ", error.getMessage());
+                        Toast.makeText(appContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        // add the request object to the queue to be executed
+        requestQueue.add(req);
     }
 
 }
