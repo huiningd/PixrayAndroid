@@ -86,12 +86,13 @@ public class ImageGalleryActivity extends ActionBarActivity implements
     }
 
     private void initDataset() {
-        PixrayAPI.DownloadSinglePlateJson(new PixrayAPICallback() {
+        String url = Urls.getUrlSinglePlate(mProjectId, mPlateId);
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildSinglePlate(response);
             }
-        }, mAppContext, mProjectId, mPlateId);
+        }, mAppContext, url);
     }
 
     private void buildSinglePlate(JSONObject response) {
@@ -105,7 +106,7 @@ public class ImageGalleryActivity extends ActionBarActivity implements
         String url = Urls.getUrlImageGallery(mProjectId, mPlateId, mRequestDateId);
         Log.i(TAG, "photos of requested date url: " + url);
 
-        PixrayAPI.DownloadImageGalleryJson(new PixrayAPICallback() {
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildImageGallery(response);
@@ -175,7 +176,7 @@ public class ImageGalleryActivity extends ActionBarActivity implements
             String url = Urls.getUrlImageGallery(mProjectId, mPlateId, mRequestDateId);
             mReplaceFragment = true;
             // download data and replace the old fragment
-            PixrayAPI.DownloadImageGalleryJson(new PixrayAPICallback() {
+            PixrayAPI.DownloadJson(new PixrayAPICallback() {
                 @Override
                 public void callback(JSONObject response) {
                     buildImageGallery(response);

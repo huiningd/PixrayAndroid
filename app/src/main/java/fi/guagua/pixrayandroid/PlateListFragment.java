@@ -84,12 +84,13 @@ public class PlateListFragment extends Fragment {
     }
 
     private void initDataset() {
-        PixrayAPI.DownloadPlatesJson(new PixrayAPICallback() {
+        String url = Urls.getUrlPlates(mProjectId);
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildPlateList(response);
             }
-        }, mAppContext, mProjectId);
+        }, mAppContext, url);
     }
 
     private class PlateAdapter extends ArrayAdapter<Plate> {

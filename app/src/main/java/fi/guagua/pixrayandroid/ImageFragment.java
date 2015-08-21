@@ -60,19 +60,21 @@ public class ImageFragment extends Fragment {
     }
 
     private void initDataset() {
-        PixrayAPI.DownloadScoreTypesJson(new PixrayAPICallback() {
+        String urlScoreTypes = Urls.getUrlScoreTypes();
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildScoreTypes(response);
             }
-        }, mAppContext);
+        }, mAppContext, urlScoreTypes);
 
-        PixrayAPI.DownloadSampleScreenAndScore(new PixrayAPICallback() {
+        String urlSampleScreenScore = Urls.getUrlSampleScreenScore(mImage);
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildSampleScreenAndScore(response);
             }
-        }, mAppContext, mImage);
+        }, mAppContext, urlSampleScreenScore);
     }
 
     @Override

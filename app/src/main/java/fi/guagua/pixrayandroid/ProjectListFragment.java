@@ -73,12 +73,13 @@ public class ProjectListFragment extends Fragment {
     }
 
     private void initDataset() {
-        PixrayAPI.DownloadProjectsJson(new PixrayAPICallback() {
+        String url = Urls.getUrlProjects();
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
                 buildProjectList(response);
             }
-        }, mAppContext);
+        }, mAppContext, url);
     }
 
     private class ProjectAdapter extends ArrayAdapter<Project> {
