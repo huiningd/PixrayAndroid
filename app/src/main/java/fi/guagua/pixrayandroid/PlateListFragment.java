@@ -110,7 +110,6 @@ public class PlateListFragment extends Fragment {
                 }
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to fetch plate list!", e);
             e.printStackTrace();
             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }

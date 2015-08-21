@@ -50,7 +50,6 @@ public class ImageActivity extends ActionBarActivity implements
         // and add the transaction to the back stack so the user can navigate back
         transaction.replace(R.id.fragmentContainer, newFragment);
         transaction.addToBackStack(null);
-        // Commit the transaction
         transaction.commit();
     }
 

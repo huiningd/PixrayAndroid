@@ -102,7 +102,6 @@ public class ProjectListFragment extends Fragment {
                 //for (Project p : mProjects) { System.out.println(p.toString()); } // debug
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to fetch project list!", e);
             e.printStackTrace();
             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }

@@ -52,7 +52,13 @@ public class Pixray {
     public static final String JSON_SCORE_TYPES = "score_types";
     public static final String JSON_SCORE = "score";
     public static final String JSON_COLOR = "color";
-
+    public static final String JSON_SAMPLE = "sample";
+    public static final String JSON_SCREEN_NAME = "screen_name";
+    public static final String JSON_SCREEN = "screen";
+    public static final String JSON_CLASS = "class";
+    public static final String JSON_CONCENTRATION = "concentration";
+    public static final String JSON_UNITS = "units";
+    public static final String JSON_PH = "ph";
 
     public Pixray () {
         // empty constructor

@@ -162,7 +162,23 @@ public class ImageFragment extends Fragment {
     }
 
     private void buildSampleScreenAndScore(JSONObject response) {
-
+        try {
+            mSample = response.getString(Pixray.JSON_SAMPLE);
+            mScreenName = response.getString(Pixray.JSON_SCREEN_NAME);
+            mCurrentScoreId = response.getInt(Pixray.JSON_SCORE);
+            JSONArray array = response.getJSONArray(Pixray.JSON_SCREEN);
+            for (int i = 0; i < array.length(); i++) {
+                String name = array.getJSONObject(i).getString(Pixray.JSON_NAME);
+                String screen_class = array.getJSONObject(i).getString(Pixray.JSON_CLASS);
+                String concentration = array.getJSONObject(i).getString(Pixray.JSON_CONCENTRATION);
+                String units = array.getJSONObject(i).getString(Pixray.JSON_UNITS);
+                String ph = array.getJSONObject(i).getString(Pixray.JSON_PH);
+                mWellConditionses.add(new WellConditions(name, screen_class, concentration, units, ph));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void buildScoreTypes(JSONObject response) {
@@ -183,7 +199,6 @@ public class ImageFragment extends Fragment {
             }
             mScoreTypes = new ScoreTypes(ids, names, colors);
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to fetch project list!", e);
             e.printStackTrace();
             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
