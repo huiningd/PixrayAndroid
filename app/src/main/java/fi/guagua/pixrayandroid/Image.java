@@ -1,6 +1,7 @@
 package fi.guagua.pixrayandroid;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Image implements Serializable {
     private int mRows;
@@ -11,6 +12,11 @@ public class Image implements Serializable {
     //private String mId;
     private String mThumbnailUrl;
     private String mLargeImageUrl;
+    private String mSample;
+    private String mScreenName;
+    private ArrayList<WellConditions> mWellConditionses;
+    private int mCurrentScoreId;
+    private ScoreTypes mScoreTypes;
 
     public Image(GalleryInfo galleryInfo, int rows, int cols, int drops, String thumbnailUrl, String label) {
         mGalleryInfo = galleryInfo;
@@ -61,4 +67,43 @@ public class Image implements Serializable {
         return mLabel;
     }
 
+    public String getSample() {
+        return mSample;
+    }
+
+    public void setSample(String sample) {
+        mSample = sample;
+    }
+
+    public String getScreenName() {
+        return mScreenName;
+    }
+
+    public void setScreenName(String screenName) {
+        mScreenName = screenName;
+    }
+
+    public ArrayList<WellConditions> getWellConditionses() {
+        return mWellConditionses;
+    }
+
+    public void setWellConditionses(ArrayList<WellConditions> wellConditionses) {
+        mWellConditionses = wellConditionses;
+    }
+
+    public int getCurrentScoreId() {
+        return mCurrentScoreId;
+    }
+
+    public void setCurrentScoreId(int currentScoreId) {
+        mCurrentScoreId = currentScoreId;
+    }
+
+    public ScoreTypes getScoreTypes() {
+        return mScoreTypes;
+    }
+
+    public void setScoreTypes(ScoreTypes scoreTypes) {
+        mScoreTypes = scoreTypes;
+    }
 }

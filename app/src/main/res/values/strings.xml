@@ -22,6 +22,8 @@
     <string name="choose_score_below">Choose a score below:</string>
     <string name="score">Score:</string>
     <string name="change_score">Change Score</string>
-    <string name="coming_soon">Coming soon!</string>
+    <string name="sample">Sample:</string>
+    <string name="screen">Screen:</string>
+    <string name="well_conditions">Well Conditions:</string>
 
 </resources>

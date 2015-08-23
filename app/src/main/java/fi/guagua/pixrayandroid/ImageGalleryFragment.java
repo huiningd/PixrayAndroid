@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ public class ImageGalleryFragment extends Fragment {
     private int mRequestTypeId;
     private String mGalleryJson;
     private GalleryInfo mGalleryInfo;
+    private Image mSelectedImage;
 
     public static ImageGalleryFragment newInstance(GalleryInfo gallery, String galleryJson) {
         Bundle args = new Bundle();
@@ -61,13 +63,15 @@ public class ImageGalleryFragment extends Fragment {
             mGalleryJson = getArguments().getString(Pixray.EXTRA_GALLERY_JSON);
             //Log.d(TAG, "gallery json in fragment onCreate:" + mGalleryJson);
             mGalleryInfo = (GalleryInfo) getArguments().getSerializable(Pixray.EXTRA_GALLERY_INFO);
-            mProjectId = mGalleryInfo.getProjectId();
-            mPlateId = mGalleryInfo.getPlateId();
-            Log.d(TAG, "date id is " + mRequestDateId + ", update it to " + mGalleryInfo.getRequestDateId());
-            mRequestDateId = mGalleryInfo.getRequestDateId();
-            Log.d(TAG, "type id is " + mRequestTypeId + ", update it to " + mGalleryInfo.getRequestTypeId());
-            mRequestTypeId = mGalleryInfo.getRequestTypeId();
-            //Log.d(TAG, "project id is " + mProjectId + " plate id is " + mPlateId + " date id is " + mRequestDateId);
+            if (mGalleryInfo != null) {
+                mProjectId = mGalleryInfo.getProjectId();
+                mPlateId = mGalleryInfo.getPlateId();
+                Log.d(TAG, "date id is " + mRequestDateId + ", update it to " + mGalleryInfo.getRequestDateId());
+                mRequestDateId = mGalleryInfo.getRequestDateId();
+                Log.d(TAG, "type id is " + mRequestTypeId + ", update it to " + mGalleryInfo.getRequestTypeId());
+                mRequestTypeId = mGalleryInfo.getRequestTypeId();
+                //Log.d(TAG, "project id is " + mProjectId + " plate id is " + mPlateId + " date id is " + mRequestDateId);
+            }
         }
 
         setHasOptionsMenu(true);
@@ -99,16 +103,97 @@ public class ImageGalleryFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Log.i(TAG, "image with position " + position + " is clicked.");
                         //Image image = (Image) recyclerView.getChildAt(position);
-                        Image image = mImages.get(position);
-                        String url = Urls.getLargeImageUrl(image.getThumbnailUrl());
-                        image.setLargeImageUrl(url);
-                        Intent i = new Intent(getActivity(), ImageActivity.class);
-                        i.putExtra(Pixray.EXTRA_IMAGE, image);
-                        startActivity(i);
+                        mSelectedImage = mImages.get(position);
+                        getDetailedImageData(mSelectedImage);
                     }
                 })
         );
         return v;
+    }
+
+    private void startImageActivity() {
+        Intent i = new Intent(getActivity(), ImageActivity.class);
+        i.putExtra(Pixray.EXTRA_IMAGE, mSelectedImage);
+        startActivity(i);
+    }
+
+    private void getDetailedImageData(Image image) {
+        // get url of large image
+        String url = Urls.getLargeImageUrl(image.getThumbnailUrl());
+        image.setLargeImageUrl(url);
+
+        // get sample, screen, and score
+        String urlSampleScreenScore = Urls.getUrlSampleScreenScore(image);
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
+            @Override
+            public void callback(JSONObject response) {
+                Log.i(TAG, "Sample screen score JSON: " + response);
+                buildSampleScreenAndScore(response);
+                getScoreTypes();
+            }
+        }, mAppContext, urlSampleScreenScore);
+    }
+
+    private void getScoreTypes() {
+        // get score types
+        String urlScoreTypes = Urls.getUrlScoreTypes();
+        PixrayAPI.DownloadJson(new PixrayAPICallback() {
+            @Override
+            public void callback(JSONObject response) {
+                buildScoreTypes(response);
+                startImageActivity();
+            }
+        }, mAppContext, urlScoreTypes);
+    }
+
+    private void buildSampleScreenAndScore(JSONObject response) {
+        try {
+            String sample = response.getString(Pixray.JSON_SAMPLE);
+            String screenName = response.getString(Pixray.JSON_SCREEN_NAME);
+            int currentScoreId = response.getInt(Pixray.JSON_SCORE);
+            JSONArray array = response.getJSONArray(Pixray.JSON_SCREEN);
+            mSelectedImage.setSample(sample);
+            mSelectedImage.setScreenName(screenName);
+            mSelectedImage.setCurrentScoreId(currentScoreId);
+
+            ArrayList<WellConditions> wellConditionses = new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                String name = array.getJSONObject(i).getString(Pixray.JSON_NAME);
+                String screen_class = array.getJSONObject(i).getString(Pixray.JSON_CLASS);
+                String concentration = array.getJSONObject(i).getString(Pixray.JSON_CONCENTRATION);
+                String units = array.getJSONObject(i).getString(Pixray.JSON_UNITS);
+                String ph = array.getJSONObject(i).getString(Pixray.JSON_PH);
+                wellConditionses.add(new WellConditions(name, screen_class, concentration, units, ph));
+            }
+            mSelectedImage.setWellConditionses(wellConditionses);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void buildScoreTypes(JSONObject response) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> colors = new ArrayList<>();
+        try {
+            JSONArray array = response.getJSONArray(Pixray.JSON_SCORE_TYPES);
+            // Build the array of projects from JSONObjects
+            for (int i = 0; i < array.length(); i++) {
+                int id = array.getJSONObject(i).getInt(Pixray.JSON_ID);
+                String score = array.getJSONObject(i).getString(Pixray.JSON_SCORE);
+                String color = array.getJSONObject(i).getString(Pixray.JSON_COLOR);
+                ids.add(id);
+                names.add(score);
+                colors.add(color);
+                Log.d(TAG, "score is " + score);
+            }
+            ScoreTypes scoreTypes= new ScoreTypes(ids, names, colors);
+            mSelectedImage.setScoreTypes(scoreTypes);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     // Calculate what is the appropriate number of columns for the grid to fit the screen.
@@ -146,7 +231,7 @@ public class ImageGalleryFragment extends Fragment {
                 }
                 ArrayList<String> urlsThumbnail = Urls.getUrlsOfImageThumbnail(urlGallery,
                         mRequestTypeId, rows, cols, drops);
-                ArrayList<String> labels = getImageLabels(rows, cols, drops);
+                ArrayList<String> labels = Pixray.getImageLabels(rows, cols, drops);
                 for (int i = 0; i < labels.size() && i < urlsThumbnail.size(); i++) {
                     Image image = new Image(mGalleryInfo, rows, cols, drops, urlsThumbnail.get(i), labels.get(i));
                     mImages.add(image);
@@ -156,19 +241,6 @@ public class ImageGalleryFragment extends Fragment {
             Log.e(TAG, "Error in gallery json", e);
             e.printStackTrace();
         }
-    }
-
-    private ArrayList<String> getImageLabels(int rows, int cols, int drops) {
-        ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                for (int k = 0; k < drops; k++) {
-                    String l = Pixray.IMAGE_INIT[i] + (j+1) + "." + (k+1); // row 7, col 11, drop 2 -> H12.3
-                    labels.add(l);
-                }
-            }
-        }
-        return labels;
     }
 
     @Override

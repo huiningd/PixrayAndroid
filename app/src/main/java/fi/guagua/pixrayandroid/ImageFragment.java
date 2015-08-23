@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,14 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -30,12 +26,6 @@ public class ImageFragment extends Fragment {
     private static final String TAG = "ImageFragment";
     private Context mAppContext;
     private Image mImage;
-    //private TextView mImageLabel;
-    private ScoreTypes mScoreTypes;
-    private String mSample;
-    private String mScreenName;
-    private ArrayList<WellConditions> mWellConditionses;
-    private int mCurrentScoreId;
 
     public ImageFragment() {
     }
@@ -55,26 +45,7 @@ public class ImageFragment extends Fragment {
         mImage = (Image) getArguments().getSerializable(Pixray.EXTRA_IMAGE);
         setHasOptionsMenu(true);
         mAppContext = getActivity().getApplicationContext();
-        initDataset();
         setRetainInstance(true);
-    }
-
-    private void initDataset() {
-        String urlScoreTypes = Urls.getUrlScoreTypes();
-        PixrayAPI.DownloadJson(new PixrayAPICallback() {
-            @Override
-            public void callback(JSONObject response) {
-                buildScoreTypes(response);
-            }
-        }, mAppContext, urlScoreTypes);
-
-        String urlSampleScreenScore = Urls.getUrlSampleScreenScore(mImage);
-        PixrayAPI.DownloadJson(new PixrayAPICallback() {
-            @Override
-            public void callback(JSONObject response) {
-                buildSampleScreenAndScore(response);
-            }
-        }, mAppContext, urlSampleScreenScore);
     }
 
     @Override
@@ -109,9 +80,11 @@ public class ImageFragment extends Fragment {
 
         // load current score
         TextView score = (TextView) v.findViewById(R.id.scoreColor);
-        score.setText(" test score color ");
-        score.setBackgroundColor(getResources().getColor(R.color.colorAccent)); // testing
-        // TODO: get info from json
+        int scoreId = mImage.getCurrentScoreId();
+        final ScoreTypes scoreTypes = mImage.getScoreTypes();
+        score.setText(Pixray.getScoreName(scoreTypes, scoreId));
+        String color = Pixray.getScoreColor(scoreTypes, scoreId);
+        score.setBackgroundColor(Color.parseColor(color));
 
         // choose new score
         Button changeScore = (Button) v.findViewById(R.id.changeScore);
@@ -119,7 +92,7 @@ public class ImageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getFragmentManager();
-                ChooseNewScoreDialog newScoreDialog = ChooseNewScoreDialog.newInstance(mScoreTypes);
+                ChooseNewScoreDialog newScoreDialog = ChooseNewScoreDialog.newInstance(scoreTypes);
                 newScoreDialog.show(fm, Pixray.NEW_SCORE_DIALOG);
             }
         });
@@ -161,48 +134,6 @@ public class ImageFragment extends Fragment {
         }
     }
 
-    private void buildSampleScreenAndScore(JSONObject response) {
-        try {
-            mSample = response.getString(Pixray.JSON_SAMPLE);
-            mScreenName = response.getString(Pixray.JSON_SCREEN_NAME);
-            mCurrentScoreId = response.getInt(Pixray.JSON_SCORE);
-            JSONArray array = response.getJSONArray(Pixray.JSON_SCREEN);
-            for (int i = 0; i < array.length(); i++) {
-                String name = array.getJSONObject(i).getString(Pixray.JSON_NAME);
-                String screen_class = array.getJSONObject(i).getString(Pixray.JSON_CLASS);
-                String concentration = array.getJSONObject(i).getString(Pixray.JSON_CONCENTRATION);
-                String units = array.getJSONObject(i).getString(Pixray.JSON_UNITS);
-                String ph = array.getJSONObject(i).getString(Pixray.JSON_PH);
-                mWellConditionses.add(new WellConditions(name, screen_class, concentration, units, ph));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void buildScoreTypes(JSONObject response) {
-        ArrayList<Integer> ids = new ArrayList<>();
-        ArrayList<String> names = new ArrayList<>();
-        ArrayList<String> colors = new ArrayList<>();
-        try {
-            JSONArray array = response.getJSONArray(Pixray.JSON_SCORE_TYPES);
-            // Build the array of projects from JSONObjects
-            for (int i = 0; i < array.length(); i++) {
-                int id = array.getJSONObject(i).getInt(Pixray.JSON_ID);
-                String score = array.getJSONObject(i).getString(Pixray.JSON_SCORE);
-                String color = array.getJSONObject(i).getString(Pixray.JSON_COLOR);
-                ids.add(id);
-                names.add(score);
-                colors.add(color);
-                //for (Project p : mProjects) { System.out.println(p.toString()); } // debug
-            }
-            mScoreTypes = new ScoreTypes(ids, names, colors);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
 
 
 }

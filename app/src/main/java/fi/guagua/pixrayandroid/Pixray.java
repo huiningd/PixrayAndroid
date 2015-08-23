@@ -163,4 +163,37 @@ public class Pixray {
         return type_ids;
     }
 
+    public static ArrayList<String> getImageLabels(int rows, int cols, int drops) {
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                for (int k = 0; k < drops; k++) {
+                    String l = Pixray.IMAGE_INIT[i] + (j+1) + "." + (k+1); // row 7, col 11, drop 2 -> H12.3
+                    labels.add(l);
+                }
+            }
+        }
+        return labels;
+    }
+
+    public static String getScoreName(ScoreTypes scoreTypes, int scoreId){
+        if (scoreTypes == null) {Log.e(TAG, "score types is null");}
+        ArrayList<Integer> ids = scoreTypes.getIds();
+        //Log.e(TAG, "score size is " + ids.size());
+        ArrayList<String> names = scoreTypes.getNames();
+        for (int i=0; i<ids.size(); i++) {
+            if (scoreId == ids.get(i)) return names.get(i);
+        }
+        return null;
+    }
+
+    public static String getScoreColor(ScoreTypes scoreTypes, int scoreId){
+        ArrayList<Integer> ids = scoreTypes.getIds();
+        ArrayList<String> colors = scoreTypes.getColors();
+        for (int i=0; i<ids.size(); i++) {
+            if (scoreId == ids.get(i)) return colors.get(i);
+        }
+        return null;
+    }
+
 }
