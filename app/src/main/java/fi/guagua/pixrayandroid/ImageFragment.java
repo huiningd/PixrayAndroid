@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,7 +51,7 @@ public class ImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_display_single_image, container, false);
-        Pixray.setToolBar(view, (ActionBarActivity) getActivity(), R.string.single_image);
+        Pixray.setToolBar(view, (AppCompatActivity) getActivity(), R.string.single_image);
 
         final String url = mImage.getLargeImageUrl();
         Log.d(TAG, "image url is " + url);

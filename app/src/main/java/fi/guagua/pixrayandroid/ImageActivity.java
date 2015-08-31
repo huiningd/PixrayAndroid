@@ -5,12 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class ImageActivity extends ActionBarActivity implements
+public class ImageActivity extends AppCompatActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener,
         ChooseNewScoreDialog.OnScoreSelectedListener {
 

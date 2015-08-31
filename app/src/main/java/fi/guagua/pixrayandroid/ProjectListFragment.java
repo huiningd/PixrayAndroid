@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +39,7 @@ public class ProjectListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_simple_list, container, false);
 
-        Pixray.setToolBar(v, (ActionBarActivity)getActivity(), R.string.project_list);
+        Pixray.setToolBar(v, (AppCompatActivity)getActivity(), R.string.project_list);
         final ListView listView = (ListView) v.findViewById(R.id.listView);
         mAdapter = new ProjectAdapter(mProjects);
         listView.setAdapter(mAdapter);

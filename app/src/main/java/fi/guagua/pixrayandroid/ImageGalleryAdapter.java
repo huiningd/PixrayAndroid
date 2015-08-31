@@ -21,7 +21,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     private ArrayList<Image> mImages;
 
     public ImageGalleryAdapter(Context context, ArrayList<Image> images) {
-        Log.d(TAG, "Adpter constructor is called");
+        //Log.d(TAG, "Adpter constructor is called");
         //Log.d(TAG, "image number is " + mImages.size());
         mAppContext = context;
         mInflater = LayoutInflater.from(context);
@@ -32,7 +32,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     // Create new views (invoked by the layout manager)
     @Override
     public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        Log.d(TAG, "Adapter onCreateViewHolder is called");
+        //Log.d(TAG, "Adapter onCreateViewHolder is called");
         View v = mInflater.inflate(R.layout.gallery_item, parent, false);
         return new GalleryItemViewHolder(v);
     }
@@ -40,7 +40,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(GalleryItemViewHolder viewHolder, int position) {
-        Log.d(TAG, "Adapter onBindViewHolder is called");
+        //Log.d(TAG, "Adapter onBindViewHolder is called");
         Image image = mImages.get(position);
         String url = image.getThumbnailUrl();
         String label = image.getLabel();

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -76,7 +77,7 @@ public class Pixray {
     }
 
     // In order to use toolbar for Android API level under 21, need to use ActionBarActivity and setSupportActionBar().
-    public static void setToolBar(View v, ActionBarActivity activity, int resId) {
+    public static void setToolBar(View v, AppCompatActivity activity, int resId) {
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.app_bar);
         activity.setSupportActionBar(toolbar);
         if (NavUtils.getParentActivityName(activity) != null) { // no parent, no caret

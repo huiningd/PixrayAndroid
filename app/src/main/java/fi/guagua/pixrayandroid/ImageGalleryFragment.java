@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -82,7 +82,7 @@ public class ImageGalleryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_image_gallery_grid, container, false);
-        Pixray.setToolBar(v, (ActionBarActivity)getActivity(), R.string.image_grid);
+        Pixray.setToolBar(v, (AppCompatActivity)getActivity(), R.string.image_grid);
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.gallery_recycler_view);
 
         // auto-fit grid

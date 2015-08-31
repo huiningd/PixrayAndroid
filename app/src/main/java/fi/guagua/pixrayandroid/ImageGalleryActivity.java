@@ -6,7 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /*
  * Have to use ActionBarActivity, otherwise getSupportActionBar(toolbar) doesn't work.
  */
-public class ImageGalleryActivity extends ActionBarActivity implements
+public class ImageGalleryActivity extends AppCompatActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener {
 
     private static final String TAG = "ImageGalleryActivity";
