@@ -130,7 +130,8 @@ public class ImageActivity extends ActionBarActivity implements
         Log.d(TAG, "url PUT new score: " + url);
         PixrayAPI.putDataToServer(getApplicationContext(), url);
 
-        // TODO: update new score in mImage
+        // update new score in mImage
+        mImage.setCurrentScoreId(scoreId);
 
         if (imageFrag != null) {
             // If imageGalleryfrag is available, we're in two-pane layout...
