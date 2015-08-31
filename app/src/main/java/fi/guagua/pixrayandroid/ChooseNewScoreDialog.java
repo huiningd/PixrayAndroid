@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,10 +62,13 @@ public class ChooseNewScoreDialog extends DialogFragment{
             mRadioGroup.addView(newRadioButton, 0, layoutParams);
         }
 
+        final Button submitButton = (Button) view.findViewById(R.id.chooseScoreConfirm);
+        submitButton.setEnabled(false); // can't submit before a score is selected
+
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-            Toast.makeText(getActivity(), "you have selected " + checkedId, Toast.LENGTH_SHORT).show();
+                submitButton.setEnabled(true);
             }
         });
 
@@ -78,8 +80,7 @@ public class ChooseNewScoreDialog extends DialogFragment{
             }
         });
 
-        Button okButton = (Button) view.findViewById(R.id.chooseScoreConfirm);
-        okButton.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss(); // dismiss the dialog
