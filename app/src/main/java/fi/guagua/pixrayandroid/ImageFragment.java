@@ -157,6 +157,15 @@ public class ImageFragment extends Fragment {
                         Pixray.TYPE_SELECTOR, types, typeIds);
                 typeDialog.show(fm, Pixray.TYPE_SELECTOR);
                 return true;
+            case R.id.action_info:
+                GalleryInfo galleryInfo = mImage.getGalleryInfo();
+                int dateId = galleryInfo.getRequestDateId();
+                int typeId = galleryInfo.getRequestTypeId();
+                String date = galleryInfo.getDateById(dateId);
+                String type = galleryInfo.getTypeById(typeId);
+                InfoDialogFragment infoDialog = InfoDialogFragment.newInstance(date, type);
+                infoDialog.show(fm, Pixray.INFO_DIALOG);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
