@@ -1,10 +1,7 @@
 package fi.guagua.pixrayandroid;
 
-import java.util.ArrayList;
-
 public class Urls {
-    // May change to http://kide.biocenter.helsinki.fi/pixray-rest-api
-    public static final String URL_PIXRAY = "http://phrynichus.biocenter.helsinki.fi/pixray-rest-api";
+    public static final String URL_PIXRAY = "https://kide.biocenter.helsinki.fi/pixray-rest-api";
     public static final String URL_PARAM_API_KEY = "/key/";
     public static final String URL_API_KEY = "test";
     public static final String URL_PROJECTS = "/projects";
@@ -26,12 +23,13 @@ public class Urls {
         int projectId = image.getGalleryInfo().getProjectId();
         int plateId = image.getGalleryInfo().getPlateId();
         int dateId = image.getGalleryInfo().getRequestDateId();
-        int rows = image.getRows();
-        int cols = image.getColumns();
-        int drops = image.getDrops();
+        int[] rowColDrop = image.getRowColumnDrop();
+        int row = rowColDrop[0];
+        int col = rowColDrop[1];
+        int drop = rowColDrop[2];
         return URL_PIXRAY + URL_PARAM_API_KEY + URL_API_KEY + URL_PROJECT +
                 projectId + URL_PLATE + plateId + URL_DATE + dateId +
-                URL_ROW + rows + URL_COLUMN + cols + URL_DROP + drops;
+                URL_ROW + row + URL_COLUMN + col + URL_DROP + drop;
     }
 
     public static String getUrlScoreTypes() {
@@ -57,19 +55,13 @@ public class Urls {
         return getUrlSinglePlate(projectId, plateId) + URL_DATE + dateId;
     }
 
-    public static ArrayList<String> getUrlsOfImageThumbnail(String urlPhotoGallery, int typeId,
-                                                            int rows, int cols, int drops) {
-        ArrayList<String> urlThumbs = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                for (int k = 0; k < drops; k++) {
-                    String url = urlPhotoGallery + URL_ROW + i + URL_COLUMN + j + URL_DROP +
-                            k + URL_TYPE + typeId + URL_THUMBNAIL; // set type to be 0 for thumbnails
-                    urlThumbs.add(url);
-                }
-            }
-        }
-        return urlThumbs;
+    public static String getUrlImageThumbnail(String urlPhotoGallery, int typeId, int[] rowColDrop) {
+        int row = rowColDrop[0];
+        int col = rowColDrop[1];
+        int drop = rowColDrop[2];
+        String url = urlPhotoGallery + URL_ROW + row + URL_COLUMN + col + URL_DROP +
+                     drop + URL_TYPE + typeId + URL_THUMBNAIL; // set type to be 0 for thumbnails
+        return url;
     }
 
     public static String newUrlThumbnailDateChanged(String oldUrlThumbnail, int dateId) {
@@ -99,16 +91,15 @@ public class Urls {
         int projectId = image.getGalleryInfo().getProjectId();
         int plateId = image.getGalleryInfo().getPlateId();
         int dateId = image.getGalleryInfo().getRequestDateId();
-        int row = image.getRows();
-        int col = image.getColumns();
-        int drop = image.getDrops();
+        int[] rowColDrop = image.getRowColumnDrop();
+        int row = rowColDrop[0];
+        int col = rowColDrop[1];
+        int drop = rowColDrop[2];
 
         return URL_PIXRAY + URL_PARAM_API_KEY + URL_API_KEY + URL_PROJECT + projectId +
                 URL_PLATE + plateId + URL_DATE + dateId + URL_ROW + row + URL_COLUMN +
                 col + URL_DROP + drop + URL_SCORE + newScoreId;
     }
-
-
 
 }
 

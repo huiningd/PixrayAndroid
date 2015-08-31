@@ -32,11 +32,13 @@ public class Pixray {
     public static final String EXTRA_GALLERY_TYPE = "fi.guagua.pixrayandroid.gallery_type";
     public static final String EXTRA_CURRENT_SCORE = "fi.guagua.pixrayandroid.current_score";
     public static final String EXTRA_SCORE_TYPES = "fi.guagua.pixrayandroid.score_types";
+    public static final String EXTRA_WC = "fi.guagua.pixrayandroid.well_conditions";
 
     public static final String TYPE_SELECTOR = "type_selector";
     public static final String DATE_SELECTOR = "date_selector";
     public static final String INFO_DIALOG = "info_dialog";
     public static final String NEW_SCORE_DIALOG = "new_score_dialog";
+    public static final String WELL_CONDITIONS_DIALOG = "well_conditions_dialog";
     //public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss Z");
 
     // images have at most 8 rows, each row takes an init char.
@@ -163,17 +165,28 @@ public class Pixray {
         return type_ids;
     }
 
-    public static ArrayList<String> getImageLabels(int rows, int cols, int drops) {
-        ArrayList<String> labels = new ArrayList<>();
+    public static String getImageLabel(int[] rowColDrop) {
+        int row = rowColDrop[0];
+        int col = rowColDrop[1];
+        int drop = rowColDrop[2];
+        return Pixray.IMAGE_INIT[row] + (col+1) + "." + (drop+1); // row 7, col 11, drop 2 -> H12.3
+    }
+
+    public static ArrayList<int[]> getImageRowColDropList(int rows, int cols, int drops) {
+        ArrayList<int[]> rowColDropList = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 for (int k = 0; k < drops; k++) {
-                    String l = Pixray.IMAGE_INIT[i] + (j+1) + "." + (k+1); // row 7, col 11, drop 2 -> H12.3
-                    labels.add(l);
+                    int[] rowColDrop = new int[3];
+                    rowColDrop[0] = i; // row
+                    rowColDrop[1] = j; // column
+                    rowColDrop[2] = k; // drop
+                    //Log.d(TAG, " row is " + i + ", col is " + j + ", drop is " + k);
+                    rowColDropList.add(rowColDrop);
                 }
             }
         }
-        return labels;
+        return rowColDropList;
     }
 
     public static String getScoreName(ScoreTypes scoreTypes, int scoreId){

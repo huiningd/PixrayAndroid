@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Image implements Serializable {
-    private int mRows;
-    private int mColumns;
-    private int mDrops;
+    private int[] mRowColumnDrop; // index 0 is row, index 1 is col, index 2 is drop.
     private GalleryInfo mGalleryInfo;
     private String mLabel;
     //private String mId;
@@ -18,25 +16,15 @@ public class Image implements Serializable {
     private int mCurrentScoreId;
     private ScoreTypes mScoreTypes;
 
-    public Image(GalleryInfo galleryInfo, int rows, int cols, int drops, String thumbnailUrl, String label) {
+    public Image(GalleryInfo galleryInfo, String thumbnailUrl, int[] rowColDrop, String label) {
         mGalleryInfo = galleryInfo;
-        mRows = rows;
-        mColumns = cols;
-        mDrops = drops;
         mLabel = label;
         mThumbnailUrl = thumbnailUrl;
+        mRowColumnDrop = rowColDrop;
     }
 
-    public int getRows() {
-        return mRows;
-    }
-
-    public int getColumns() {
-        return mColumns;
-    }
-
-    public int getDrops() {
-        return mDrops;
+    public int[] getRowColumnDrop() {
+        return mRowColumnDrop;
     }
 
     public GalleryInfo getGalleryInfo() {

@@ -50,22 +50,22 @@ public class ImageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_display_single_image, container, false);
-        Pixray.setToolBar(v, (ActionBarActivity) getActivity(), R.string.single_image);
+        View view = inflater.inflate(R.layout.fragment_display_single_image, container, false);
+        Pixray.setToolBar(view, (ActionBarActivity) getActivity(), R.string.single_image);
 
         final String url = mImage.getLargeImageUrl();
         Log.d(TAG, "image url is " + url);
-        String label = mImage.getLabel();
 
         // load image from server
-        final NetworkImageView networkImageView = (NetworkImageView) v.findViewById(R.id.singleImagePic);
+        final NetworkImageView networkImageView = (NetworkImageView) view.findViewById(R.id.singleImagePic);
         ImageLoader imageLoader = VolleySingleton.getInstance(mAppContext).getImageLoader();
         networkImageView.setDefaultImageResId(R.drawable.loading);
         networkImageView.setErrorImageResId(R.drawable.image_error);
         networkImageView.setImageUrl(url, imageLoader);
 
         // set image label
-        TextView imageLabel = (TextView) v.findViewById(R.id.singleImageLabel);
+        String label = mImage.getLabel();
+        TextView imageLabel = (TextView) view.findViewById(R.id.singleImageLabel);
         imageLabel.setText("Label: " + label);
 
         networkImageView.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class ImageFragment extends Fragment {
         });
 
         // load current score
-        TextView score = (TextView) v.findViewById(R.id.scoreColor);
+        TextView score = (TextView) view.findViewById(R.id.scoreColor);
         int scoreId = mImage.getCurrentScoreId();
         final ScoreTypes scoreTypes = mImage.getScoreTypes();
         score.setText(Pixray.getScoreName(scoreTypes, scoreId));
@@ -87,7 +87,7 @@ public class ImageFragment extends Fragment {
         score.setBackgroundColor(Color.parseColor(color));
 
         // choose new score
-        Button changeScore = (Button) v.findViewById(R.id.changeScore);
+        Button changeScore = (Button) view.findViewById(R.id.changeScore);
         changeScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +96,35 @@ public class ImageFragment extends Fragment {
                 newScoreDialog.show(fm, Pixray.NEW_SCORE_DIALOG);
             }
         });
-        return v;
+
+        // set sample name
+        String sampleName = mImage.getSample();
+        TextView imageSample = (TextView) view.findViewById(R.id.singleImageSample);
+        imageSample.setText("Sample: " + sampleName);
+
+        // set screen name
+        String screenName = mImage.getScreenName();
+        TextView imageScreen = (TextView) view.findViewById(R.id.singleImageScreen);
+        imageScreen.setText("Screen: " + screenName);
+
+        // check details of well-conditions
+        final ArrayList<WellConditions> wcs = mImage.getWellConditionses();
+        Button seeWellConditions = (Button) view.findViewById(R.id.singleImageWCondition);
+        if (wcs.isEmpty()) {
+            seeWellConditions.setVisibility(View.GONE);
+            //seeWellConditions.setVisibility(View.INVISIBLE);
+        } else {
+            seeWellConditions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getActivity().getFragmentManager();
+                    WellConditionsDialog wcDialog = WellConditionsDialog.newInstance(wcs);
+                    wcDialog.show(fm, Pixray.WELL_CONDITIONS_DIALOG);
+                }
+            });
+        }
+
+        return view;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package fi.guagua.pixrayandroid;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class WellConditions {
+public class WellConditions implements Serializable {
         private String mName;
         private String mWcClass;
         private String mConcentration;

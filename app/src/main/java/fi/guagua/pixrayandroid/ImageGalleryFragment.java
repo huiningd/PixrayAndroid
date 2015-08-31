@@ -124,6 +124,7 @@ public class ImageGalleryFragment extends Fragment {
 
         // get sample, screen, and score
         String urlSampleScreenScore = Urls.getUrlSampleScreenScore(image);
+        // Log.i(TAG, "urlSampleScreenScore " + urlSampleScreenScore);
         PixrayAPI.DownloadJson(new PixrayAPICallback() {
             @Override
             public void callback(JSONObject response) {
@@ -217,9 +218,9 @@ public class ImageGalleryFragment extends Fragment {
             int rows = response.getInt("rows");
             int cols = response.getInt("columns");
             int drops = response.getInt("drops");
-            //int types = response.getJSONArray("types").length();
             int imageCount = rows*cols*drops;
             Log.i(TAG, "image count is " + imageCount);
+
             if (imageCount == 0) {
                 Toast.makeText(mAppContext, R.string.no_image,
                         Toast.LENGTH_LONG).show();
@@ -229,11 +230,15 @@ public class ImageGalleryFragment extends Fragment {
                     mRequestTypeId = Pixray.getDefaultTypeId(response);
                     mGalleryInfo.setRequestTypeId(mRequestTypeId);
                 }
-                ArrayList<String> urlsThumbnail = Urls.getUrlsOfImageThumbnail(urlGallery,
-                        mRequestTypeId, rows, cols, drops);
-                ArrayList<String> labels = Pixray.getImageLabels(rows, cols, drops);
-                for (int i = 0; i < labels.size() && i < urlsThumbnail.size(); i++) {
-                    Image image = new Image(mGalleryInfo, rows, cols, drops, urlsThumbnail.get(i), labels.get(i));
+                ArrayList<int[]> rowColDropList = Pixray.getImageRowColDropList(rows, cols, drops);
+                // create Image objects
+                for (int i = 0; i < rowColDropList.size(); i++) {
+                    int[] rowColDrop = rowColDropList.get(i);
+                    //Log.d(TAG, "rowcoldrop " + rowColDrop[0] + rowColDrop[1] + rowColDrop[2]);
+                    String label = Pixray.getImageLabel(rowColDrop);
+                    String urlThumbnail = Urls.getUrlImageThumbnail(urlGallery,
+                            mRequestTypeId, rowColDrop);
+                    Image image = new Image(mGalleryInfo, urlThumbnail, rowColDrop, label);
                     mImages.add(image);
                 }
             }

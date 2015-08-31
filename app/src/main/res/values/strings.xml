@@ -12,6 +12,8 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="submit">Submit</string>
+    <string name="dismiss">Dismiss</string>
+
     <string name="date_selector_title">Please select a date:</string>
     <string name="type_selector_title">Please select a type:</string>
     <string name="gallery_info_title">Current plate info:</string>
@@ -24,6 +26,11 @@
     <string name="change_score">Change Score</string>
     <string name="sample">Sample:</string>
     <string name="screen">Screen:</string>
+    <string name="see_well_conditions">See Well Conditions</string>
     <string name="well_conditions">Well Conditions:</string>
+    <string name="wcClass">Class:</string>
+    <string name="name">Name:</string>
+    <string name="concentration">Concentration:</string>
+    <string name="ph">PH:</string>
 
 </resources>
