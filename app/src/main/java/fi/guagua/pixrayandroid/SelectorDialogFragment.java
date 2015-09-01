@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SelectorDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "SelectorDialogFragment";
-
+    private View mRootView;
     protected OnDateOrTypeSelectedListener mListener;
     private String mWhichSelector;
     private ArrayList<String> mNames;
@@ -60,24 +60,27 @@ public class SelectorDialogFragment extends DialogFragment implements AdapterVie
             getDialog().setTitle(R.string.type_selector_title);
         }
 
-        View view = inflater.inflate(R.layout.fragment_selector, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_selector, container, false);
         setCancelable(false); // dialog doesn't get cancelled by clicking outside of the dialog
+        return mRootView;
+    }
 
-        ListView listView = (ListView) view.findViewById(R.id.selector_list);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ListView listView = (ListView) mRootView.findViewById(R.id.selector_list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, mNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
-        Button cancelButton = (Button) view.findViewById(R.id.selector_cancel_button);
+        Button cancelButton = (Button) mRootView.findViewById(R.id.selector_cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-
-        return view;
     }
 
     @Override

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class ImageGalleryFragment extends Fragment {
 
     private static final String TAG = "ImageGalleryFragment";
-
+    private View mRootView;
     private Context mAppContext;
     private ArrayList<Image> mImages = new ArrayList<>();
     private int mProjectId;
@@ -56,8 +56,15 @@ public class ImageGalleryFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_image_gallery_grid, container, false);
+        return mRootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAppContext = getActivity().getApplicationContext();
 
         if (getArguments() != null) {
             mGalleryJson = getArguments().getString(Pixray.EXTRA_GALLERY_JSON);
@@ -75,15 +82,9 @@ public class ImageGalleryFragment extends Fragment {
         }
 
         setHasOptionsMenu(true);
-        mAppContext = getActivity().getApplicationContext();
-        Log.d(TAG, "onCreate finished");
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_image_gallery_grid, container, false);
-        Pixray.setToolBar(v, (AppCompatActivity)getActivity(), R.string.image_grid);
-        final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.gallery_recycler_view);
+        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.image_grid);
+        final RecyclerView recyclerView = (RecyclerView) mRootView.findViewById(R.id.gallery_recycler_view);
 
         // auto-fit grid
         int columnCount = findColumnCount();
@@ -108,7 +109,6 @@ public class ImageGalleryFragment extends Fragment {
                     }
                 })
         );
-        return v;
     }
 
     private void startImageActivity() {

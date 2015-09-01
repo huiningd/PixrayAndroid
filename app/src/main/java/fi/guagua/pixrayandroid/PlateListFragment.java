@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class PlateListFragment extends Fragment {
 
     private static final String TAG = "PlateListFragment";
+    private View mRootView;
     private ArrayList<Plate> mPlates = new ArrayList<>();
     private PlateAdapter mAdapter;
     private Context mAppContext;
@@ -40,18 +41,19 @@ public class PlateListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAppContext = getActivity().getApplicationContext();
-        mProjectId = getArguments().getInt(Pixray.EXTRA_PROJECT_ID);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_simple_list, container, false);
+        return mRootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_simple_list, container, false);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAppContext = getActivity().getApplicationContext();
+        mProjectId = getArguments().getInt(Pixray.EXTRA_PROJECT_ID);
 
-        Pixray.setToolBar(v, (AppCompatActivity)getActivity(), R.string.plate_list);
-        final ListView listView = (ListView) v.findViewById(R.id.listView);
+        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.plate_list);
+        final ListView listView = (ListView) mRootView.findViewById(R.id.listView);
         mAdapter = new PlateAdapter(mPlates);
         listView.setAdapter(mAdapter);
 
@@ -80,7 +82,6 @@ public class PlateListFragment extends Fragment {
                 startActivity(i);
             }
         });
-        return v;
     }
 
     private void initDataset() {

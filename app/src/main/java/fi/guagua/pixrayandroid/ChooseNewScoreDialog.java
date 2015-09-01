@@ -14,13 +14,9 @@ import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 
-
 public class ChooseNewScoreDialog extends DialogFragment{
     private static final String TAG = "ChooseNewScoreDialog";
     private RadioGroup mRadioGroup;
-    private ArrayList<Integer> mIds;
-    private ArrayList<String> mNames;
-    private ArrayList<String> mColors;
     protected OnScoreSelectedListener mListener;
 
     public ChooseNewScoreDialog() {
@@ -43,17 +39,17 @@ public class ChooseNewScoreDialog extends DialogFragment{
         getDialog().setTitle(R.string.choose_score_below);
 
         ScoreTypes st = (ScoreTypes) getArguments().getSerializable(Pixray.EXTRA_SCORE_TYPES);
-        mIds = st.getIds();
-        mNames = st.getNames();
-        mColors = st.getColors();
+        ArrayList<Integer> ids = st.getIds();
+        ArrayList<String> names = st.getNames();
+        ArrayList<String> colors = st.getColors();
 
         // create scoring radio buttons programmatically
         mRadioGroup = (RadioGroup) view.findViewById(R.id.scoringChoices);
-        for (int i = 0; i < mIds.size(); i++) {
+        for (int i = 0; i < ids.size(); i++) {
             RadioButton newRadioButton = new RadioButton(getActivity());
-            newRadioButton.setText(mNames.get(i));
-            newRadioButton.setId(mIds.get(i));
-            newRadioButton.setBackgroundColor(Color.parseColor(mColors.get(i)));
+            newRadioButton.setText(names.get(i));
+            newRadioButton.setId(ids.get(i));
+            newRadioButton.setBackgroundColor(Color.parseColor(colors.get(i)));
             newRadioButton.setWidth(350);
             //newRadioButton.setLayoutParams();
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(

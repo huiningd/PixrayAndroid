@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class ImageFragment extends Fragment {
     private static final String TAG = "ImageFragment";
+    private View mRootView;
     private Context mAppContext;
     private Image mImage;
 
@@ -40,34 +41,31 @@ public class ImageFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mImage = (Image) getArguments().getSerializable(Pixray.EXTRA_IMAGE);
-        setHasOptionsMenu(true);
-        mAppContext = getActivity().getApplicationContext();
-        setRetainInstance(true);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_display_single_image, container, false);
+        return mRootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_display_single_image, container, false);
-        Pixray.setToolBar(view, (AppCompatActivity) getActivity(), R.string.single_image);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAppContext = getActivity().getApplicationContext();
+        mImage = (Image) getArguments().getSerializable(Pixray.EXTRA_IMAGE);
+        setHasOptionsMenu(true);
+        setRetainInstance(true);
 
-        final String url = mImage.getLargeImageUrl();
-        Log.d(TAG, "image url is " + url);
+        Pixray.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.single_image);
 
         // load image from server
-        final NetworkImageView networkImageView = (NetworkImageView) view.findViewById(R.id.singleImagePic);
+        final String url = mImage.getLargeImageUrl();
+        Log.d(TAG, "image url is " + url);
+        final NetworkImageView networkImageView = (NetworkImageView) mRootView.findViewById(R.id.singleImagePic);
         ImageLoader imageLoader = VolleySingleton.getInstance(mAppContext).getImageLoader();
         networkImageView.setDefaultImageResId(R.drawable.loading);
         networkImageView.setErrorImageResId(R.drawable.image_error);
         networkImageView.setImageUrl(url, imageLoader);
 
-        // set image label
-        String label = mImage.getLabel();
-        TextView imageLabel = (TextView) view.findViewById(R.id.singleImageLabel);
-        imageLabel.setText("Label: " + label);
-
+        // enlarge image on click
         networkImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,8 +76,12 @@ public class ImageFragment extends Fragment {
             }
         });
 
+        // set image label
+        TextView imageLabel = (TextView) mRootView.findViewById(R.id.singleImageLabel);
+        imageLabel.setText("Label: " + mImage.getLabel());
+
         // load current score
-        TextView score = (TextView) view.findViewById(R.id.scoreColor);
+        TextView score = (TextView) mRootView.findViewById(R.id.scoreColor);
         int scoreId = mImage.getCurrentScoreId();
         final ScoreTypes scoreTypes = mImage.getScoreTypes();
         score.setText(Pixray.getScoreName(scoreTypes, scoreId));
@@ -87,7 +89,7 @@ public class ImageFragment extends Fragment {
         score.setBackgroundColor(Color.parseColor(color));
 
         // choose new score
-        Button changeScore = (Button) view.findViewById(R.id.changeScore);
+        Button changeScore = (Button) mRootView.findViewById(R.id.changeScore);
         changeScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,20 +101,19 @@ public class ImageFragment extends Fragment {
 
         // set sample name
         String sampleName = mImage.getSample();
-        TextView imageSample = (TextView) view.findViewById(R.id.singleImageSample);
+        TextView imageSample = (TextView) mRootView.findViewById(R.id.singleImageSample);
         imageSample.setText("Sample: " + sampleName);
 
         // set screen name
         String screenName = mImage.getScreenName();
-        TextView imageScreen = (TextView) view.findViewById(R.id.singleImageScreen);
+        TextView imageScreen = (TextView) mRootView.findViewById(R.id.singleImageScreen);
         imageScreen.setText("Screen: " + screenName);
 
         // check details of well-conditions
         final ArrayList<WellConditions> wcs = mImage.getWellConditionses();
-        Button seeWellConditions = (Button) view.findViewById(R.id.singleImageWCondition);
+        Button seeWellConditions = (Button) mRootView.findViewById(R.id.singleImageWCondition);
         if (wcs.isEmpty()) {
             seeWellConditions.setVisibility(View.GONE);
-            //seeWellConditions.setVisibility(View.INVISIBLE);
         } else {
             seeWellConditions.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,8 +124,6 @@ public class ImageFragment extends Fragment {
                 }
             });
         }
-
-        return view;
     }
 
     @Override

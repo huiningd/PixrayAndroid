@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class WellConditionsDialog extends DialogFragment {
     private static final String TAG = "WellConditionsDialog";
+    private View mRootView;
 
     public WellConditionsDialog() {
         // Empty constructor required for DialogFragment
@@ -29,15 +30,18 @@ public class WellConditionsDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_well_conditions, container);
+        mRootView = inflater.inflate(R.layout.fragment_well_conditions, container);
         getDialog().setTitle(R.string.well_conditions);
+        return mRootView;
+    }
 
-        //if(getArguments().getSerializable(Pixray.EXTRA_WC) instanceof ArrayList) {}
-        @SuppressWarnings("unchecked")
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         ArrayList<WellConditions> wcs = (ArrayList<WellConditions>) getArguments().
                     getSerializable(Pixray.EXTRA_WC);
 
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.wellCondition);
+        LinearLayout layout = (LinearLayout) mRootView.findViewById(R.id.wellCondition);
         for (int i = 0; i < wcs.size(); i++) {
             WellConditions wc = wcs.get(i);
             String wcClass = wc.getWcClass();
@@ -65,15 +69,13 @@ public class WellConditionsDialog extends DialogFragment {
             }
         }
 
-        Button dismissButton = (Button) view.findViewById(R.id.dismiss);
+        Button dismissButton = (Button) mRootView.findViewById(R.id.dismiss);
         dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss(); // dismiss the dialog
             }
         });
-
-        return view;
     }
 
 }

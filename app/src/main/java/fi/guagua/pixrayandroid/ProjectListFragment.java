@@ -24,23 +24,25 @@ import java.util.ArrayList;
 public class ProjectListFragment extends Fragment {
 
     private static final String TAG = "ProjectListFragment";
+    private View mRootView;
     private ArrayList<Project> mProjects = new ArrayList<>();
     private ProjectAdapter mAdapter;
     private Context mAppContext;
     private ProgressDialog mProgressDialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAppContext = getActivity().getApplicationContext();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_simple_list, container, false);
+        return mRootView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_simple_list, container, false);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAppContext = getActivity().getApplicationContext();
 
-        Pixray.setToolBar(v, (AppCompatActivity)getActivity(), R.string.project_list);
-        final ListView listView = (ListView) v.findViewById(R.id.listView);
+        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.project_list);
+        final ListView listView = (ListView) mRootView.findViewById(R.id.listView);
         mAdapter = new ProjectAdapter(mProjects);
         listView.setAdapter(mAdapter);
 
@@ -69,7 +71,6 @@ public class ProjectListFragment extends Fragment {
                 startActivity(i);
             }
         });
-        return v;
     }
 
     private void initDataset() {
