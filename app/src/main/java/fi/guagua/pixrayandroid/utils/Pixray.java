@@ -1,10 +1,9 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.models.ScoreTypes;
 
 public class Pixray {
 

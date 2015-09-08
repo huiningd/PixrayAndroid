@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.models;
 
 public class Project {
 

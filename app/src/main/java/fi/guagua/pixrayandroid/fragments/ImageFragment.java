@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -21,6 +21,19 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.models.GalleryInfo;
+import fi.guagua.pixrayandroid.models.Image;
+import fi.guagua.pixrayandroid.views.widgets.InfoDialogFragment;
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.models.ScoreTypes;
+import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
+import fi.guagua.pixrayandroid.network.VolleySingleton;
+import fi.guagua.pixrayandroid.models.WellConditions;
+import fi.guagua.pixrayandroid.views.widgets.WellConditionsDialog;
+import fi.guagua.pixrayandroid.activities.EnlargedImageActivity;
+import fi.guagua.pixrayandroid.views.widgets.ChooseNewScoreDialog;
 
 public class ImageFragment extends Fragment {
     private static final String TAG = "ImageFragment";

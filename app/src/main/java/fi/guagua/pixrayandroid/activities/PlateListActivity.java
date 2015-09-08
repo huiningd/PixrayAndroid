@@ -1,9 +1,12 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.activities;
 
 import android.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.fragments.PlateListFragment;
 
 public class PlateListActivity extends SingleFragmentActivity {
     private static final String TAG = "PlateListActivity";

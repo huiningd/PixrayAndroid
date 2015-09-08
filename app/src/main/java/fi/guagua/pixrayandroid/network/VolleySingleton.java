@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.network;
 
 import android.annotation.TargetApi;
 import android.content.Context;

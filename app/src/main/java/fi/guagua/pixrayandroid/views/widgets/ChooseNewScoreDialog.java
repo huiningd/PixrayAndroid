@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.views.widgets;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -13,6 +13,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.models.ScoreTypes;
 
 public class ChooseNewScoreDialog extends DialogFragment{
     private static final String TAG = "ChooseNewScoreDialog";
@@ -50,7 +54,7 @@ public class ChooseNewScoreDialog extends DialogFragment{
             newRadioButton.setText(names.get(i));
             newRadioButton.setId(ids.get(i));
             newRadioButton.setBackgroundColor(Color.parseColor(colors.get(i)));
-            newRadioButton.setWidth(350);
+            newRadioButton.setWidth(500);
             //newRadioButton.setLayoutParams();
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,

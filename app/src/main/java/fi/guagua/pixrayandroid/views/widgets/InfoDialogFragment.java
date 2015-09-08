@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.views.widgets;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
 
 public class InfoDialogFragment extends DialogFragment {
 

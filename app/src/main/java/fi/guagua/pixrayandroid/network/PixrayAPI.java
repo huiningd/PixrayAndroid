@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.network;
 
 import android.content.Context;
 import android.util.Log;

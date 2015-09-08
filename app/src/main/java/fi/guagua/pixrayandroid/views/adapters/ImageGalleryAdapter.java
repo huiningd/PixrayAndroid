@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.views.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +12,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.network.VolleySingleton;
+import fi.guagua.pixrayandroid.models.Image;
 
 public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.GalleryItemViewHolder> {
 

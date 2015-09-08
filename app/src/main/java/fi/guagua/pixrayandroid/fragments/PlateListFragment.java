@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -20,6 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.activities.ImageGalleryActivity;
+import fi.guagua.pixrayandroid.models.Plate;
+import fi.guagua.pixrayandroid.network.PixrayAPI;
+import fi.guagua.pixrayandroid.network.PixrayAPICallback;
 
 public class PlateListFragment extends Fragment {
 

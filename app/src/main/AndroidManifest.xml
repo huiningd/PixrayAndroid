@@ -14,7 +14,7 @@
         <!-- android:theme="@android:style/Theme.Holo.Light.DarkActionBar" -->
 
         <activity
-            android:name=".ProjectListActivity"
+            android:name=".activities.ProjectListActivity"
             android:label="@string/project_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,41 +24,41 @@
         </activity>
 
         <activity
-            android:name=".PlateListActivity"
+            android:name=".activities.PlateListActivity"
             android:label="@string/plate_list"
-            android:parentActivityName=".ProjectListActivity" >
+            android:parentActivityName=".activities.ProjectListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProjectListActivity" />
+                android:value=".activities.ProjectListActivity" />
         </activity>
 
         <activity
-            android:name=".ImageGalleryActivity"
+            android:name=".activities.ImageGalleryActivity"
             android:label="@string/image_grid"
-            android:parentActivityName=".PlateListActivity" >
+            android:parentActivityName=".activities.PlateListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlateListActivity" />
+                android:value=".activities.PlateListActivity" />
         </activity>
 
         <activity
-            android:name=".ImageActivity"
+            android:name=".activities.ImageActivity"
             android:label="@string/single_image"
-            android:parentActivityName=".ImageGalleryActivity" >
+            android:parentActivityName=".activities.ImageGalleryActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ImageGalleryActivity" />
+                android:value=".activities.ImageGalleryActivity" />
         </activity>
 
         <activity
-            android:name=".EnlargedImageActivity"
+            android:name=".activities.EnlargedImageActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".ImageActivity"
+            android:parentActivityName=".activities.ImageActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ImageActivity" />
+                android:value=".activities.ImageActivity" />
         </activity>
 
     </application>

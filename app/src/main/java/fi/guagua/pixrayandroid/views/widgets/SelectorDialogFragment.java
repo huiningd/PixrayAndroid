@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.views.widgets;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -14,6 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
 
 
 public class SelectorDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {

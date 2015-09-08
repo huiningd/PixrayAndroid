@@ -1,6 +1,8 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.activities;
 
 import android.app.Fragment;
+
+import fi.guagua.pixrayandroid.fragments.ProjectListFragment;
 
 public class ProjectListActivity extends SingleFragmentActivity {
     @Override

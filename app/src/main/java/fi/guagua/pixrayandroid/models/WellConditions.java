@@ -1,10 +1,7 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.models;
 
 import java.io.Serializable;
 
-/**
- *
- */
 public class WellConditions implements Serializable {
         private String mName;
         private String mWcClass;

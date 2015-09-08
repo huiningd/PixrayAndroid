@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -21,6 +21,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.activities.PlateListActivity;
+import fi.guagua.pixrayandroid.models.Project;
+import fi.guagua.pixrayandroid.network.PixrayAPI;
+import fi.guagua.pixrayandroid.network.PixrayAPICallback;
+
 public class ProjectListFragment extends Fragment {
 
     private static final String TAG = "ProjectListFragment";
@@ -41,7 +49,7 @@ public class ProjectListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mAppContext = getActivity().getApplicationContext();
 
-        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.project_list);
+        Pixray.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.project_list);
         final ListView listView = (ListView) mRootView.findViewById(R.id.listView);
         mAdapter = new ProjectAdapter(mProjects);
         listView.setAdapter(mAdapter);

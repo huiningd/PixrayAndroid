@@ -1,4 +1,6 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.utils;
+
+import fi.guagua.pixrayandroid.models.Image;
 
 public class Urls {
     public static final String URL_PIXRAY = "https://kide.biocenter.helsinki.fi/pixray-rest-api";

@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.navercorp.volleyextensions.view.ZoomableNetworkImageView;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.network.VolleySingleton;
 
 
 public class EnlargedImageActivity extends Activity {

@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.models;
 
 import android.util.Log;
 
@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+
+import fi.guagua.pixrayandroid.utils.Pixray;
 
 /**
  * Every project contains multiple plates.

@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -9,6 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import fi.guagua.pixrayandroid.models.GalleryInfo;
+import fi.guagua.pixrayandroid.models.Image;
+import fi.guagua.pixrayandroid.fragments.ImageFragment;
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.network.PixrayAPI;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.views.widgets.ChooseNewScoreDialog;
 
 public class ImageActivity extends AppCompatActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener,

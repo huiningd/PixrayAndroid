@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

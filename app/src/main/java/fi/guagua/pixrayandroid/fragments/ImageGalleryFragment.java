@@ -1,4 +1,4 @@
-package fi.guagua.pixrayandroid;
+package fi.guagua.pixrayandroid.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -24,6 +24,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import fi.guagua.pixrayandroid.models.GalleryInfo;
+import fi.guagua.pixrayandroid.models.Image;
+import fi.guagua.pixrayandroid.activities.ImageActivity;
+import fi.guagua.pixrayandroid.views.adapters.ImageGalleryAdapter;
+import fi.guagua.pixrayandroid.views.widgets.InfoDialogFragment;
+import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.network.PixrayAPI;
+import fi.guagua.pixrayandroid.network.PixrayAPICallback;
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.utils.RecyclerItemClickListener;
+import fi.guagua.pixrayandroid.models.ScoreTypes;
+import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.models.WellConditions;
 
 public class ImageGalleryFragment extends Fragment {
 
