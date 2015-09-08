@@ -56,7 +56,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements
             // Initialize dataset, this data will come from a remote server.
             initDataset();
         } else {
-            Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.err_network_unavailable, Toast.LENGTH_LONG).show();
         }
     }
 

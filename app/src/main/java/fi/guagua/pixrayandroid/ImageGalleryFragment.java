@@ -222,7 +222,7 @@ public class ImageGalleryFragment extends Fragment {
             Log.i(TAG, "image count is " + imageCount);
 
             if (imageCount == 0) {
-                Toast.makeText(mAppContext, R.string.no_image,
+                Toast.makeText(mAppContext, R.string.err_no_image,
                         Toast.LENGTH_LONG).show();
             } else {
                 String urlGallery = Urls.getUrlImageGallery(mProjectId, mPlateId, mRequestDateId);

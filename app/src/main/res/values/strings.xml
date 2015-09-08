@@ -18,8 +18,8 @@
     <string name="type_selector_title">Please select a type:</string>
     <string name="gallery_info_title">Current plate info:</string>
 
-    <string name="network_unavailable">Network connection is NOT available.</string>
-    <string name="no_image">There is no image in this date. Please click DATE to select another date.</string>
+    <string name="err.network.unavailable">Network connection is NOT available.</string>
+    <string name="err.no.image">There is no image in this date. Please click DATE to select another date.</string>
 
     <string name="choose_score_below">Choose a score below:</string>
     <string name="score">Score:</string>

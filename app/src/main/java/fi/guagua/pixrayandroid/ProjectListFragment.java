@@ -56,7 +56,7 @@ public class ProjectListFragment extends Fragment {
             // Initialize dataset, this data will come from a remote server.
             initDataset();
         } else {
-            Toast.makeText(getActivity(), R.string.network_unavailable, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.err_network_unavailable, Toast.LENGTH_LONG).show();
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
