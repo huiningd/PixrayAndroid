@@ -5,24 +5,17 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
-import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 /**
  * Every project contains multiple plates.
  */
 public class Plate {
 
-    private static final String TAG = "Plate";
+    private static final String TAG = Plate.class.getSimpleName();
     private int mProjectId;
     private int mPlateId;
     private String mName;
-    private int mDrops;
-    private Date mCreated;
-    private Date mImaged;
-    private String mDriver;
-    private String mBarcode;
 
     public Plate() {
     }
@@ -30,10 +23,10 @@ public class Plate {
     public Plate(int projectId, JSONObject json) throws JSONException {
         if (json != null) {
             mProjectId = projectId;
-            mPlateId = json.getInt(Pixray.JSON_ID);
-            mName = json.getString(Pixray.JSON_NAME);
+            mPlateId = json.getInt(Utility.JSON_ID);
+            mName = json.getString(Utility.JSON_NAME);
         } else {
-            Log.i(TAG, "JSON object missing.");
+            Log.e(TAG, "JSON object missing.");
         }
     }
 

@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class PixrayAPI {
 
-    private static final String TAG = "PixrayAPI";
+    private static final String TAG = PixrayAPI.class.getSimpleName();
 
     public static void DownloadJson(final PixrayAPICallback callbackObject,
                                     final Context mAppContext, final String url) {

@@ -15,13 +15,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 
 public class SelectorDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "SelectorDialogFragment";
+    private static final String TAG = SelectorDialogFragment.class.getSimpleName();
     private View mRootView;
     protected OnDateOrTypeSelectedListener mListener;
     private String mWhichSelector;
@@ -36,9 +36,9 @@ public class SelectorDialogFragment extends DialogFragment implements AdapterVie
                                                      ArrayList<Integer> ids) {
         SelectorDialogFragment fragment = new SelectorDialogFragment();
         Bundle args = new Bundle();
-        args.putString(Pixray.EXTRA_WHICH_SELECTOR, whichSelector);
-        args.putIntegerArrayList(Pixray.EXTRA_DATA_IDS, ids);
-        args.putStringArrayList(Pixray.EXTRA_DATA_NAMES, names);
+        args.putString(Utility.EXTRA_WHICH_SELECTOR, whichSelector);
+        args.putIntegerArrayList(Utility.EXTRA_DATA_IDS, ids);
+        args.putStringArrayList(Utility.EXTRA_DATA_NAMES, names);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,9 +47,9 @@ public class SelectorDialogFragment extends DialogFragment implements AdapterVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWhichSelector = getArguments().getString(Pixray.EXTRA_WHICH_SELECTOR);
-            mIds = getArguments().getIntegerArrayList(Pixray.EXTRA_DATA_IDS);
-            mNames = getArguments().getStringArrayList(Pixray.EXTRA_DATA_NAMES);
+            mWhichSelector = getArguments().getString(Utility.EXTRA_WHICH_SELECTOR);
+            mIds = getArguments().getIntegerArrayList(Utility.EXTRA_DATA_IDS);
+            mNames = getArguments().getStringArrayList(Utility.EXTRA_DATA_NAMES);
         }
     }
 
@@ -57,9 +57,9 @@ public class SelectorDialogFragment extends DialogFragment implements AdapterVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Set title for the dialog
-        if (mWhichSelector.equals(Pixray.DATE_SELECTOR)) {
+        if (mWhichSelector.equals(Utility.DATE_SELECTOR)) {
             getDialog().setTitle(R.string.date_selector_title);
-        } else if (mWhichSelector.equals(Pixray.TYPE_SELECTOR)) {
+        } else if (mWhichSelector.equals(Utility.TYPE_SELECTOR)) {
             getDialog().setTitle(R.string.type_selector_title);
         }
 

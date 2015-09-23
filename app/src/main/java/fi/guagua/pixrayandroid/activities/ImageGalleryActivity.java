@@ -15,14 +15,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.fragments.ImageGalleryFragment;
 import fi.guagua.pixrayandroid.models.GalleryInfo;
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.network.PixrayAPI;
 import fi.guagua.pixrayandroid.network.PixrayAPICallback;
-import fi.guagua.pixrayandroid.R;
-import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
 import fi.guagua.pixrayandroid.utils.Urls;
-import fi.guagua.pixrayandroid.fragments.ImageGalleryFragment;
+import fi.guagua.pixrayandroid.utils.Utility;
+import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
 
 /*
  * Have to use ActionBarActivity, otherwise getSupportActionBar(toolbar) doesn't work.
@@ -30,7 +30,7 @@ import fi.guagua.pixrayandroid.fragments.ImageGalleryFragment;
 public class ImageGalleryActivity extends AppCompatActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener {
 
-    private static final String TAG = "ImageGalleryActivity";
+    private static final String TAG = ImageGalleryActivity.class.getSimpleName();
     private Context mAppContext;
     private GalleryInfo mGalleryInfo;
     private int mProjectId;
@@ -49,19 +49,19 @@ public class ImageGalleryActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         // Get data across rotation
         if (savedInstanceState != null) {
-            mRequestDateId = savedInstanceState.getInt(Pixray.EXTRA_GALLERY_DATE);
-            mRequestTypeId = savedInstanceState.getInt(Pixray.EXTRA_GALLERY_TYPE);
+            mRequestDateId = savedInstanceState.getInt(Utility.EXTRA_GALLERY_DATE);
+            mRequestTypeId = savedInstanceState.getInt(Utility.EXTRA_GALLERY_TYPE);
         }
 
         setContentView(R.layout.activity_fragment);
 
         mAppContext = getApplicationContext();
-        mProjectId = (int) getIntent().getSerializableExtra(Pixray.EXTRA_PROJECT_ID);
+        mProjectId = (int) getIntent().getSerializableExtra(Utility.EXTRA_PROJECT_ID);
         Log.d(TAG, "project id " + mProjectId);
-        mPlateId = (int) getIntent().getSerializableExtra(Pixray.EXTRA_PLATE_ID);
+        mPlateId = (int) getIntent().getSerializableExtra(Utility.EXTRA_PLATE_ID);
         Log.d(TAG, mPlateId + " was clicked.");
 
-        if (Pixray.checkNetworkConnectivity(mAppContext)) { // check if network is available
+        if (Utility.checkNetworkConnectivity(mAppContext)) { // check if network is available
             // Initialize dataset, this data will come from a remote server.
             initDataset();
         } else {
@@ -107,11 +107,11 @@ public class ImageGalleryActivity extends AppCompatActivity implements
     private void buildSinglePlate(JSONObject response) {
         //Log.i(TAG, "Received SinglePlate json: " + response.toString());
         if (mRequestDateId == -1) {
-            mRequestDateId = Pixray.getDefaultDateId(response);
+            mRequestDateId = Utility.getDefaultDateId(response);
         }
         Log.d(TAG, "date id in DownloadSinglePlateJson is " + mRequestDateId);
-        mDates = Pixray.getDates(response);
-        mDateIds = Pixray.getDateIds(response);
+        mDates = Utility.getDates(response);
+        mDateIds = Utility.getDateIds(response);
         String url = Urls.getUrlImageGallery(mProjectId, mPlateId, mRequestDateId);
         Log.i(TAG, "photos of requested date url: " + url);
 
@@ -126,8 +126,8 @@ public class ImageGalleryActivity extends AppCompatActivity implements
     private void buildImageGallery(JSONObject response) {
         mImageGalleryJson = response.toString();
         //Log.d(TAG, "Recieved gallery json:" + response.toString());
-        mTypes = Pixray.getTypes(response);
-        mTypeIds = Pixray.getTypeIds(response);
+        mTypes = Utility.getTypes(response);
+        mTypeIds = Utility.getTypeIds(response);
         if (mReplaceFragment) {
             replaceFragment();
         } else {
@@ -142,7 +142,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case android.R.id.home: // navigate back
                 Intent intent = new Intent(this, PlateListActivity.class);
-                intent.putExtra(Pixray.EXTRA_PROJECT_ID, mProjectId);
+                intent.putExtra(Utility.EXTRA_PROJECT_ID, mProjectId);
                 startActivity(intent);
                 finish();
                 return true;
@@ -160,7 +160,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements
     // The user selected the date/type from the SelectorDialogFragment
     // Do something here to update the image gallery to that date/type.
     public void onDateOrTypeSelected(int requestId, String whichSelector) {
-        if (whichSelector.equals(Pixray.DATE_SELECTOR)) {
+        if (whichSelector.equals(Utility.DATE_SELECTOR)) {
             Log.d(TAG, "date id is " + mRequestDateId + ", user selected " + requestId);
             mGalleryInfo.setRequestDateId(requestId);
             mRequestDateId = requestId;
@@ -198,8 +198,8 @@ public class ImageGalleryActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle savedInstanceState) { // Save data across rotation
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
-        savedInstanceState.putInt(Pixray.EXTRA_GALLERY_DATE, mRequestDateId);
-        savedInstanceState.putInt(Pixray.EXTRA_GALLERY_TYPE, mRequestTypeId);
+        savedInstanceState.putInt(Utility.EXTRA_GALLERY_DATE, mRequestDateId);
+        savedInstanceState.putInt(Utility.EXTRA_GALLERY_TYPE, mRequestTypeId);
     }
 
 }

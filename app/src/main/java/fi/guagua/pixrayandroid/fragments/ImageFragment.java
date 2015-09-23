@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import fi.guagua.pixrayandroid.models.GalleryInfo;
 import fi.guagua.pixrayandroid.models.Image;
 import fi.guagua.pixrayandroid.views.widgets.InfoDialogFragment;
-import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.utils.Utility;
 import fi.guagua.pixrayandroid.R;
 import fi.guagua.pixrayandroid.models.ScoreTypes;
 import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
@@ -36,7 +36,7 @@ import fi.guagua.pixrayandroid.activities.EnlargedImageActivity;
 import fi.guagua.pixrayandroid.views.widgets.ChooseNewScoreDialog;
 
 public class ImageFragment extends Fragment {
-    private static final String TAG = "ImageFragment";
+    private static final String TAG = ImageFragment.class.getSimpleName();
     private View mRootView;
     private Context mAppContext;
     private Image mImage;
@@ -46,7 +46,7 @@ public class ImageFragment extends Fragment {
 
     public static ImageFragment newInstance(Image image) {
         Bundle args = new Bundle();
-        args.putSerializable(Pixray.EXTRA_IMAGE, image);
+        args.putSerializable(Utility.EXTRA_IMAGE, image);
         ImageFragment fragment = new ImageFragment();
         fragment.setArguments(args);
         Log.d(TAG, "ImageFragment is now created.");
@@ -63,11 +63,11 @@ public class ImageFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAppContext = getActivity().getApplicationContext();
-        mImage = (Image) getArguments().getSerializable(Pixray.EXTRA_IMAGE);
+        mImage = (Image) getArguments().getSerializable(Utility.EXTRA_IMAGE);
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        Pixray.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.single_image);
+        Utility.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.single_image);
 
         // load image from server
         final String url = mImage.getLargeImageUrl();
@@ -84,7 +84,7 @@ public class ImageFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(TAG, "image is touched!");
                 Intent i = new Intent(mAppContext, EnlargedImageActivity.class);
-                i.putExtra(Pixray.EXTRA_IMAGE_URL, url);
+                i.putExtra(Utility.EXTRA_IMAGE_URL, url);
                 startActivity(i);
             }
         });
@@ -97,8 +97,8 @@ public class ImageFragment extends Fragment {
         TextView score = (TextView) mRootView.findViewById(R.id.scoreColor);
         int scoreId = mImage.getCurrentScoreId();
         final ScoreTypes scoreTypes = mImage.getScoreTypes();
-        score.setText(Pixray.getScoreName(scoreTypes, scoreId));
-        String color = Pixray.getScoreColor(scoreTypes, scoreId);
+        score.setText(Utility.getScoreName(scoreTypes, scoreId));
+        String color = Utility.getScoreColor(scoreTypes, scoreId);
         score.setBackgroundColor(Color.parseColor(color));
 
         // choose new score
@@ -108,7 +108,7 @@ public class ImageFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getFragmentManager();
                 ChooseNewScoreDialog newScoreDialog = ChooseNewScoreDialog.newInstance(scoreTypes);
-                newScoreDialog.show(fm, Pixray.NEW_SCORE_DIALOG);
+                newScoreDialog.show(fm, Utility.NEW_SCORE_DIALOG);
             }
         });
 
@@ -133,7 +133,7 @@ public class ImageFragment extends Fragment {
                 public void onClick(View v) {
                     FragmentManager fm = getActivity().getFragmentManager();
                     WellConditionsDialog wcDialog = WellConditionsDialog.newInstance(wcs);
-                    wcDialog.show(fm, Pixray.WELL_CONDITIONS_DIALOG);
+                    wcDialog.show(fm, Utility.WELL_CONDITIONS_DIALOG);
                 }
             });
         }
@@ -148,7 +148,6 @@ public class ImageFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected is called");
         GalleryInfo info = mImage.getGalleryInfo();
         FragmentManager fm = getActivity().getFragmentManager();
         // Handle presses on the action bar items
@@ -159,15 +158,15 @@ public class ImageFragment extends Fragment {
                 ArrayList<Integer> dateIds = info.getDateIds();
                 ArrayList<String> dates = info.getDates();
                 SelectorDialogFragment dateDialog = SelectorDialogFragment.newInstance(
-                        Pixray.DATE_SELECTOR, dates, dateIds);
-                dateDialog.show(fm, Pixray.DATE_SELECTOR); // fragment transaction is handled in show()
+                        Utility.DATE_SELECTOR, dates, dateIds);
+                dateDialog.show(fm, Utility.DATE_SELECTOR); // fragment transaction is handled in show()
                 return true;
             case R.id.action_type:
                 ArrayList<Integer> typeIds = info.getTypeIds();
                 ArrayList<String> types = info.getTypes();
                 SelectorDialogFragment typeDialog = SelectorDialogFragment.newInstance(
-                        Pixray.TYPE_SELECTOR, types, typeIds);
-                typeDialog.show(fm, Pixray.TYPE_SELECTOR);
+                        Utility.TYPE_SELECTOR, types, typeIds);
+                typeDialog.show(fm, Utility.TYPE_SELECTOR);
                 return true;
             case R.id.action_info:
                 GalleryInfo galleryInfo = mImage.getGalleryInfo();
@@ -176,7 +175,7 @@ public class ImageFragment extends Fragment {
                 String date = galleryInfo.getDateById(dateId);
                 String type = galleryInfo.getTypeById(typeId);
                 InfoDialogFragment infoDialog = InfoDialogFragment.newInstance(date, type);
-                infoDialog.show(fm, Pixray.INFO_DIALOG);
+                infoDialog.show(fm, Utility.INFO_DIALOG);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

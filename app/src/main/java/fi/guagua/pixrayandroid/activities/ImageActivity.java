@@ -10,21 +10,21 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.fragments.ImageFragment;
 import fi.guagua.pixrayandroid.models.GalleryInfo;
 import fi.guagua.pixrayandroid.models.Image;
-import fi.guagua.pixrayandroid.fragments.ImageFragment;
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.network.PixrayAPI;
-import fi.guagua.pixrayandroid.R;
-import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
 import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.utils.Utility;
 import fi.guagua.pixrayandroid.views.widgets.ChooseNewScoreDialog;
+import fi.guagua.pixrayandroid.views.widgets.SelectorDialogFragment;
 
 public class ImageActivity extends AppCompatActivity implements
         SelectorDialogFragment.OnDateOrTypeSelectedListener,
         ChooseNewScoreDialog.OnScoreSelectedListener {
 
-    private static final String TAG = "ImageActivity";
+    private static final String TAG = ImageActivity.class.getSimpleName();
     private Image mImage;
     private int mProjectId;
     private int mPlateId;
@@ -35,7 +35,7 @@ public class ImageActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        mImage = (Image) getIntent().getSerializableExtra(Pixray.EXTRA_IMAGE);
+        mImage = (Image) getIntent().getSerializableExtra(Utility.EXTRA_IMAGE);
         mProjectId = mImage.getGalleryInfo().getProjectId();
         mPlateId = mImage.getGalleryInfo().getPlateId();
 
@@ -70,8 +70,8 @@ public class ImageActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, ImageGalleryActivity.class);
-                intent.putExtra(Pixray.EXTRA_PROJECT_ID, mProjectId);
-                intent.putExtra(Pixray.EXTRA_PLATE_ID, mPlateId);
+                intent.putExtra(Utility.EXTRA_PROJECT_ID, mProjectId);
+                intent.putExtra(Utility.EXTRA_PLATE_ID, mPlateId);
                 startActivity(intent);
                 finish();
                 return true;
@@ -91,7 +91,7 @@ public class ImageActivity extends AppCompatActivity implements
         String urlThumbnail = mImage.getThumbnailUrl();
 
         // If date/type is changed, urls of thumbnail-image and large-image both change.
-        if (whichSelector.equals(Pixray.DATE_SELECTOR)) {
+        if (whichSelector.equals(Utility.DATE_SELECTOR)) {
             info.setRequestDateId(id);
             // Generate new url of thumbnail-image.
             String newThumbUrl = Urls.newUrlThumbnailDateChanged(urlThumbnail, id);

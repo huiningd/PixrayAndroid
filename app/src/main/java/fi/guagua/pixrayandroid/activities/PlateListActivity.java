@@ -5,15 +5,15 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.fragments.PlateListFragment;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class PlateListActivity extends SingleFragmentActivity {
-    private static final String TAG = "PlateListActivity";
+    private static final String TAG = PlateListActivity.class.getSimpleName();
 
     @Override
     protected Fragment createFragment() {
-        int projectId = (int)getIntent().getSerializableExtra(Pixray.EXTRA_PROJECT_ID);
+        int projectId = (int)getIntent().getSerializableExtra(Utility.EXTRA_PROJECT_ID);
         Log.d("PlateListActivity", projectId + " was clicked, now create fragment.");
         return PlateListFragment.newInstance(projectId);
     }

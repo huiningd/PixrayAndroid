@@ -21,17 +21,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
-import fi.guagua.pixrayandroid.utils.Urls;
 import fi.guagua.pixrayandroid.activities.PlateListActivity;
 import fi.guagua.pixrayandroid.models.Project;
 import fi.guagua.pixrayandroid.network.PixrayAPI;
 import fi.guagua.pixrayandroid.network.PixrayAPICallback;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class ProjectListFragment extends Fragment {
 
-    private static final String TAG = "ProjectListFragment";
+    private static final String TAG = ProjectListFragment.class.getSimpleName();
     private View mRootView;
     private ArrayList<Project> mProjects = new ArrayList<>();
     private ProjectAdapter mAdapter;
@@ -49,7 +49,7 @@ public class ProjectListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mAppContext = getActivity().getApplicationContext();
 
-        Pixray.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.project_list);
+        Utility.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.project_list);
         final ListView listView = (ListView) mRootView.findViewById(R.id.listView);
         mAdapter = new ProjectAdapter(mProjects);
         listView.setAdapter(mAdapter);
@@ -59,7 +59,7 @@ public class ProjectListFragment extends Fragment {
         mProgressDialog.setMessage("Loading project list.");
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        if (Pixray.checkNetworkConnectivity(mAppContext)) {
+        if (Utility.checkNetworkConnectivity(mAppContext)) {
             mProgressDialog.show();
             // Initialize dataset, this data will come from a remote server.
             initDataset();
@@ -75,7 +75,7 @@ public class ProjectListFragment extends Fragment {
 
                 // start PlateListActivity
                 Intent i = new Intent(getActivity(), PlateListActivity.class);
-                i.putExtra(Pixray.EXTRA_PROJECT_ID, p.getId());
+                i.putExtra(Utility.EXTRA_PROJECT_ID, p.getId());
                 startActivity(i);
             }
         });
@@ -105,8 +105,8 @@ public class ProjectListFragment extends Fragment {
             // Build the array of projects from JSONObjects
             for (int i = 0; i < array.length(); i++) {
                 JSONObject singleProject = array.getJSONObject(i);
-                int id = singleProject.getInt(Pixray.JSON_ID);
-                String name = singleProject.getString(Pixray.JSON_NAME);
+                int id = singleProject.getInt(Utility.JSON_ID);
+                String name = singleProject.getString(Utility.JSON_NAME);
                 mProjects.add(new Project(id, name));
                 //for (Project p : mProjects) { System.out.println(p.toString()); } // debug
             }

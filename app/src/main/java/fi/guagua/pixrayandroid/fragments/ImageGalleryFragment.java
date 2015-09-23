@@ -30,7 +30,7 @@ import fi.guagua.pixrayandroid.models.Image;
 import fi.guagua.pixrayandroid.activities.ImageActivity;
 import fi.guagua.pixrayandroid.views.adapters.ImageGalleryAdapter;
 import fi.guagua.pixrayandroid.views.widgets.InfoDialogFragment;
-import fi.guagua.pixrayandroid.utils.Pixray;
+import fi.guagua.pixrayandroid.utils.Utility;
 import fi.guagua.pixrayandroid.network.PixrayAPI;
 import fi.guagua.pixrayandroid.network.PixrayAPICallback;
 import fi.guagua.pixrayandroid.R;
@@ -42,7 +42,7 @@ import fi.guagua.pixrayandroid.models.WellConditions;
 
 public class ImageGalleryFragment extends Fragment {
 
-    private static final String TAG = "ImageGalleryFragment";
+    private static final String TAG = ImageGalleryFragment.class.getSimpleName();
     private View mRootView;
     private Context mAppContext;
     private ArrayList<Image> mImages = new ArrayList<>();
@@ -56,8 +56,8 @@ public class ImageGalleryFragment extends Fragment {
 
     public static ImageGalleryFragment newInstance(GalleryInfo gallery, String galleryJson) {
         Bundle args = new Bundle();
-        args.putSerializable(Pixray.EXTRA_GALLERY_INFO, gallery);
-        args.putString(Pixray.EXTRA_GALLERY_JSON, galleryJson);
+        args.putSerializable(Utility.EXTRA_GALLERY_INFO, gallery);
+        args.putString(Utility.EXTRA_GALLERY_JSON, galleryJson);
         Log.d(TAG, "gallery json in new instance:" + galleryJson);
 
         ImageGalleryFragment fragment = new ImageGalleryFragment();
@@ -82,9 +82,9 @@ public class ImageGalleryFragment extends Fragment {
         mAppContext = getActivity().getApplicationContext();
 
         if (getArguments() != null) {
-            mGalleryJson = getArguments().getString(Pixray.EXTRA_GALLERY_JSON);
+            mGalleryJson = getArguments().getString(Utility.EXTRA_GALLERY_JSON);
             //Log.d(TAG, "gallery json in fragment onCreate:" + mGalleryJson);
-            mGalleryInfo = (GalleryInfo) getArguments().getSerializable(Pixray.EXTRA_GALLERY_INFO);
+            mGalleryInfo = (GalleryInfo) getArguments().getSerializable(Utility.EXTRA_GALLERY_INFO);
             if (mGalleryInfo != null) {
                 mProjectId = mGalleryInfo.getProjectId();
                 mPlateId = mGalleryInfo.getPlateId();
@@ -98,7 +98,7 @@ public class ImageGalleryFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.image_grid);
+        Utility.setToolBar(mRootView, (AppCompatActivity) getActivity(), R.string.image_grid);
         final RecyclerView recyclerView = (RecyclerView) mRootView.findViewById(R.id.gallery_recycler_view);
 
         // auto-fit grid
@@ -128,7 +128,7 @@ public class ImageGalleryFragment extends Fragment {
 
     private void startImageActivity() {
         Intent i = new Intent(getActivity(), ImageActivity.class);
-        i.putExtra(Pixray.EXTRA_IMAGE, mSelectedImage);
+        i.putExtra(Utility.EXTRA_IMAGE, mSelectedImage);
         startActivity(i);
     }
 
@@ -164,21 +164,21 @@ public class ImageGalleryFragment extends Fragment {
 
     private void buildSampleScreenAndScore(JSONObject response) {
         try {
-            String sample = response.getString(Pixray.JSON_SAMPLE);
-            String screenName = response.getString(Pixray.JSON_SCREEN_NAME);
-            int currentScoreId = response.getInt(Pixray.JSON_SCORE);
-            JSONArray array = response.getJSONArray(Pixray.JSON_SCREEN);
+            String sample = response.getString(Utility.JSON_SAMPLE);
+            String screenName = response.getString(Utility.JSON_SCREEN_NAME);
+            int currentScoreId = response.getInt(Utility.JSON_SCORE);
+            JSONArray array = response.getJSONArray(Utility.JSON_SCREEN);
             mSelectedImage.setSample(sample);
             mSelectedImage.setScreenName(screenName);
             mSelectedImage.setCurrentScoreId(currentScoreId);
 
             ArrayList<WellConditions> wellConditionses = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
-                String name = array.getJSONObject(i).getString(Pixray.JSON_NAME);
-                String screen_class = array.getJSONObject(i).getString(Pixray.JSON_CLASS);
-                String concentration = array.getJSONObject(i).getString(Pixray.JSON_CONCENTRATION);
-                String units = array.getJSONObject(i).getString(Pixray.JSON_UNITS);
-                String ph = array.getJSONObject(i).getString(Pixray.JSON_PH);
+                String name = array.getJSONObject(i).getString(Utility.JSON_NAME);
+                String screen_class = array.getJSONObject(i).getString(Utility.JSON_CLASS);
+                String concentration = array.getJSONObject(i).getString(Utility.JSON_CONCENTRATION);
+                String units = array.getJSONObject(i).getString(Utility.JSON_UNITS);
+                String ph = array.getJSONObject(i).getString(Utility.JSON_PH);
                 wellConditionses.add(new WellConditions(name, screen_class, concentration, units, ph));
             }
             mSelectedImage.setWellConditionses(wellConditionses);
@@ -193,12 +193,12 @@ public class ImageGalleryFragment extends Fragment {
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> colors = new ArrayList<>();
         try {
-            JSONArray array = response.getJSONArray(Pixray.JSON_SCORE_TYPES);
+            JSONArray array = response.getJSONArray(Utility.JSON_SCORE_TYPES);
             // Build the array of projects from JSONObjects
             for (int i = 0; i < array.length(); i++) {
-                int id = array.getJSONObject(i).getInt(Pixray.JSON_ID);
-                String score = array.getJSONObject(i).getString(Pixray.JSON_SCORE);
-                String color = array.getJSONObject(i).getString(Pixray.JSON_COLOR);
+                int id = array.getJSONObject(i).getInt(Utility.JSON_ID);
+                String score = array.getJSONObject(i).getString(Utility.JSON_SCORE);
+                String color = array.getJSONObject(i).getString(Utility.JSON_COLOR);
                 ids.add(id);
                 names.add(score);
                 colors.add(color);
@@ -242,15 +242,15 @@ public class ImageGalleryFragment extends Fragment {
             } else {
                 String urlGallery = Urls.getUrlImageGallery(mProjectId, mPlateId, mRequestDateId);
                 if (mRequestTypeId == -1) {
-                    mRequestTypeId = Pixray.getDefaultTypeId(response);
+                    mRequestTypeId = Utility.getDefaultTypeId(response);
                     mGalleryInfo.setRequestTypeId(mRequestTypeId);
                 }
-                ArrayList<int[]> rowColDropList = Pixray.getImageRowColDropList(rows, cols, drops);
+                ArrayList<int[]> rowColDropList = Utility.getImageRowColDropList(rows, cols, drops);
                 // create Image objects
                 for (int i = 0; i < rowColDropList.size(); i++) {
                     int[] rowColDrop = rowColDropList.get(i);
                     //Log.d(TAG, "rowcoldrop " + rowColDrop[0] + rowColDrop[1] + rowColDrop[2]);
-                    String label = Pixray.getImageLabel(rowColDrop);
+                    String label = Utility.getImageLabel(rowColDrop);
                     String urlThumbnail = Urls.getUrlImageThumbnail(urlGallery,
                             mRequestTypeId, rowColDrop);
                     Image image = new Image(mGalleryInfo, urlThumbnail, rowColDrop, label);
@@ -282,15 +282,15 @@ public class ImageGalleryFragment extends Fragment {
                 ArrayList<Integer> dateIds = mGalleryInfo.getDateIds();
                 ArrayList<String> dates = mGalleryInfo.getDates();
                 SelectorDialogFragment dateDialog = SelectorDialogFragment.newInstance(
-                        Pixray.DATE_SELECTOR, dates, dateIds);
-                dateDialog.show(fm, Pixray.DATE_SELECTOR); // fragment transaction is handled in show()
+                        Utility.DATE_SELECTOR, dates, dateIds);
+                dateDialog.show(fm, Utility.DATE_SELECTOR); // fragment transaction is handled in show()
                 return true;
             case R.id.action_type:
                 ArrayList<Integer> typeIds = mGalleryInfo.getTypeIds();
                 ArrayList<String> types = mGalleryInfo.getTypes();
                 SelectorDialogFragment typeDialog = SelectorDialogFragment.newInstance(
-                        Pixray.TYPE_SELECTOR, types, typeIds);
-                typeDialog.show(fm, Pixray.TYPE_SELECTOR);
+                        Utility.TYPE_SELECTOR, types, typeIds);
+                typeDialog.show(fm, Utility.TYPE_SELECTOR);
                 return true;
             case R.id.action_info:
                 int dateId = mGalleryInfo.getRequestDateId();
@@ -298,7 +298,7 @@ public class ImageGalleryFragment extends Fragment {
                 String date = mGalleryInfo.getDateById(dateId);
                 String type = mGalleryInfo.getTypeById(typeId);
                 InfoDialogFragment infoDialog = InfoDialogFragment.newInstance(date, type);
-                infoDialog.show(fm, Pixray.INFO_DIALOG);
+                infoDialog.show(fm, Utility.INFO_DIALOG);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

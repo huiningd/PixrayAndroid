@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
 import fi.guagua.pixrayandroid.models.WellConditions;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class WellConditionsDialog extends DialogFragment {
-    private static final String TAG = "WellConditionsDialog";
+    private static final String TAG = WellConditionsDialog.class.getSimpleName();
     private View mRootView;
 
     public WellConditionsDialog() {
@@ -26,7 +26,7 @@ public class WellConditionsDialog extends DialogFragment {
     public static WellConditionsDialog newInstance(ArrayList<WellConditions> wcs) {
         WellConditionsDialog frag = new WellConditionsDialog();
         Bundle args = new Bundle();
-        args.putSerializable(Pixray.EXTRA_WC, wcs);
+        args.putSerializable(Utility.EXTRA_WC, wcs);
         frag.setArguments(args);
         return frag;
     }
@@ -43,7 +43,7 @@ public class WellConditionsDialog extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArrayList<WellConditions> wcs = (ArrayList<WellConditions>) getArguments().
-                    getSerializable(Pixray.EXTRA_WC);
+                    getSerializable(Utility.EXTRA_WC);
 
         LinearLayout layout = (LinearLayout) mRootView.findViewById(R.id.wellCondition);
         for (int i = 0; i < wcs.size(); i++) {

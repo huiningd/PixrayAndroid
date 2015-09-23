@@ -14,12 +14,12 @@ import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
 import fi.guagua.pixrayandroid.models.ScoreTypes;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class ChooseNewScoreDialog extends DialogFragment{
-    private static final String TAG = "ChooseNewScoreDialog";
+    private static final String TAG = ChooseNewScoreDialog.class.getSimpleName();
     private RadioGroup mRadioGroup;
     protected OnScoreSelectedListener mListener;
 
@@ -30,7 +30,7 @@ public class ChooseNewScoreDialog extends DialogFragment{
     public static ChooseNewScoreDialog newInstance(ScoreTypes scoreTypes) {
         ChooseNewScoreDialog frag = new ChooseNewScoreDialog();
         Bundle args = new Bundle();
-        args.putSerializable(Pixray.EXTRA_SCORE_TYPES, scoreTypes);
+        args.putSerializable(Utility.EXTRA_SCORE_TYPES, scoreTypes);
         //args.putInt(Pixray.EXTRA_CURRENT_SCORE, scoreId);
         frag.setArguments(args);
         return frag;
@@ -42,7 +42,7 @@ public class ChooseNewScoreDialog extends DialogFragment{
         View view = inflater.inflate(R.layout.fragment_choose_new_score, container);
         getDialog().setTitle(R.string.choose_score_below);
 
-        ScoreTypes st = (ScoreTypes) getArguments().getSerializable(Pixray.EXTRA_SCORE_TYPES);
+        ScoreTypes st = (ScoreTypes) getArguments().getSerializable(Utility.EXTRA_SCORE_TYPES);
         ArrayList<Integer> ids = st.getIds();
         ArrayList<String> names = st.getNames();
         ArrayList<String> colors = st.getColors();

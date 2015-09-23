@@ -2,7 +2,6 @@ package fi.guagua.pixrayandroid.views.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,23 +13,20 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 
 import fi.guagua.pixrayandroid.R;
-import fi.guagua.pixrayandroid.network.VolleySingleton;
 import fi.guagua.pixrayandroid.models.Image;
+import fi.guagua.pixrayandroid.network.VolleySingleton;
 
 public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.GalleryItemViewHolder> {
 
-    private static final String TAG = "ImageGalleryAdapter";
+    private static final String TAG = ImageGalleryAdapter.class.getSimpleName();
     private Context mAppContext;
     private LayoutInflater mInflater;
     private ArrayList<Image> mImages;
 
     public ImageGalleryAdapter(Context context, ArrayList<Image> images) {
-        //Log.d(TAG, "Adpter constructor is called");
-        //Log.d(TAG, "image number is " + mImages.size());
         mAppContext = context;
         mInflater = LayoutInflater.from(context);
         mImages = images;
-        Log.d(TAG, "Adpter constructor  finished");
     }
 
     // Create new views (invoked by the layout manager)

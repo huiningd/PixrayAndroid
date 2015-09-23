@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -18,9 +17,9 @@ import java.util.ArrayList;
 import fi.guagua.pixrayandroid.R;
 import fi.guagua.pixrayandroid.models.ScoreTypes;
 
-public class Pixray {
+public class Utility {
 
-    public static final String TAG = "PIXRAY";
+    public static final String LOG_TAG = Utility.class.getSimpleName();
     public static final String EXTRA_PROJECT_ID = "fi.guagua.pixrayandroid.project_id";
     public static final String EXTRA_PLATE_ID = "fi.guagua.pixrayandroid.plate_id";
     public static final String EXTRA_IMAGE_URL = "fi.guagua.pixrayandroid.image_url";
@@ -65,9 +64,6 @@ public class Pixray {
     public static final String JSON_UNITS = "units";
     public static final String JSON_PH = "ph";
 
-    public Pixray () {
-        // empty constructor
-    }
 
     public static boolean checkNetworkConnectivity(Context appContext) {
         ConnectivityManager connMgr = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -97,7 +93,6 @@ public class Pixray {
             // get the last item in JSONArray, use it as default date
             dateId = array.getJSONObject(array.length() - 1).getInt(JSON_DATE_ID);
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get default date id!", e);
             e.printStackTrace();
         }
         return dateId;
@@ -112,12 +107,12 @@ public class Pixray {
         try {
             JSONArray array = response.getJSONArray(JSON_DATES);
             for (int i = 0; i < array.length(); i++) {
-                String date = array.getJSONObject(i).getString(JSON_DATE); // example: "date":"2012-10-10 14:51:50 +0300"
+                // example: "date":"2012-10-10 14:51:50 +0300"
+                String date = array.getJSONObject(i).getString(JSON_DATE);
                 date = date.substring(0, date.indexOf('+')); // trim the string to drop "+0300"
                 dates.add(date);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get dates!", e);
             e.printStackTrace();
         }
         return dates;
@@ -132,7 +127,6 @@ public class Pixray {
                 date_ids.add(date_id);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get date ids!", e);
             e.printStackTrace();
         }
         return date_ids;
@@ -147,7 +141,6 @@ public class Pixray {
                 types.add(type);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get types!", e);
             e.printStackTrace();
         }
         return types;
@@ -162,7 +155,6 @@ public class Pixray {
                 type_ids.add(type_id);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get type ids!", e);
             e.printStackTrace();
         }
         return type_ids;
@@ -172,7 +164,7 @@ public class Pixray {
         int row = rowColDrop[0];
         int col = rowColDrop[1];
         int drop = rowColDrop[2];
-        return Pixray.IMAGE_INIT[row] + (col+1) + "." + (drop+1); // row 7, col 11, drop 2 -> H12.3
+        return IMAGE_INIT[row] + (col+1) + "." + (drop+1); // row 7, col 11, drop 2 -> H12.3
     }
 
     public static ArrayList<int[]> getImageRowColDropList(int rows, int cols, int drops) {
@@ -193,7 +185,6 @@ public class Pixray {
     }
 
     public static String getScoreName(ScoreTypes scoreTypes, int scoreId){
-        if (scoreTypes == null) {Log.e(TAG, "score types is null");}
         ArrayList<Integer> ids = scoreTypes.getIds();
         //Log.e(TAG, "score size is " + ids.size());
         ArrayList<String> names = scoreTypes.getNames();

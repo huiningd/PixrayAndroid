@@ -2,11 +2,8 @@ package fi.guagua.pixrayandroid.models;
 
 public class Project {
 
-    private static final String TAG = "Project";
     private int mId;
     private String mName;
-    private String mOwner;
-    private boolean mVisible;
 
     public Project() {
     }
@@ -30,22 +27,6 @@ public class Project {
 
     public void setId(int id) {
         mId = id;
-    }
-
-    public String getOwner() {
-        return mOwner;
-    }
-
-    public void setOwner(String owner) {
-        mOwner = owner;
-    }
-
-    public boolean isVisible() {
-        return mVisible;
-    }
-
-    public void setVisible(boolean visible) {
-        mVisible = visible;
     }
 
     public String toString() {

@@ -21,17 +21,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
-import fi.guagua.pixrayandroid.utils.Urls;
 import fi.guagua.pixrayandroid.activities.ImageGalleryActivity;
 import fi.guagua.pixrayandroid.models.Plate;
 import fi.guagua.pixrayandroid.network.PixrayAPI;
 import fi.guagua.pixrayandroid.network.PixrayAPICallback;
+import fi.guagua.pixrayandroid.utils.Urls;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class PlateListFragment extends Fragment {
 
-    private static final String TAG = "PlateListFragment";
+    private static final String TAG = PlateListFragment.class.getSimpleName();
     private View mRootView;
     private ArrayList<Plate> mPlates = new ArrayList<>();
     private PlateAdapter mAdapter;
@@ -41,7 +41,7 @@ public class PlateListFragment extends Fragment {
 
     public static PlateListFragment newInstance(int projectId) {
         Bundle args = new Bundle();
-        args.putInt(Pixray.EXTRA_PROJECT_ID, projectId);
+        args.putInt(Utility.EXTRA_PROJECT_ID, projectId);
         PlateListFragment fragment = new PlateListFragment();
         fragment.setArguments(args);
         Log.d(TAG, projectId + " platelist fragment is now created.");
@@ -58,9 +58,9 @@ public class PlateListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAppContext = getActivity().getApplicationContext();
-        mProjectId = getArguments().getInt(Pixray.EXTRA_PROJECT_ID);
+        mProjectId = getArguments().getInt(Utility.EXTRA_PROJECT_ID);
 
-        Pixray.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.plate_list);
+        Utility.setToolBar(mRootView, (AppCompatActivity)getActivity(), R.string.plate_list);
         final ListView listView = (ListView) mRootView.findViewById(R.id.listView);
         mAdapter = new PlateAdapter(mPlates);
         listView.setAdapter(mAdapter);
@@ -70,7 +70,7 @@ public class PlateListFragment extends Fragment {
         mProgressDialog.setMessage("Loading plate list.");
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        if (Pixray.checkNetworkConnectivity(mAppContext)) {
+        if (Utility.checkNetworkConnectivity(mAppContext)) {
             mProgressDialog.show();
             // Initialize dataset, this data will come from a remote server.
             initDataset();
@@ -85,8 +85,8 @@ public class PlateListFragment extends Fragment {
                 Log.d(TAG, p.getName() + " with id " + p.getPlateId() + " was clicked");
                 // start ImageGalleryActivity
                 Intent i = new Intent(getActivity(), ImageGalleryActivity.class);
-                i.putExtra(Pixray.EXTRA_PROJECT_ID, p.getProjectId());
-                i.putExtra(Pixray.EXTRA_PLATE_ID, p.getPlateId());
+                i.putExtra(Utility.EXTRA_PROJECT_ID, p.getProjectId());
+                i.putExtra(Utility.EXTRA_PLATE_ID, p.getPlateId());
                 startActivity(i);
             }
         });

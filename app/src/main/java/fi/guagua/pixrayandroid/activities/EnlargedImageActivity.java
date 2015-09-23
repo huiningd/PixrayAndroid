@@ -8,9 +8,9 @@ import android.os.Bundle;
 import com.android.volley.toolbox.ImageLoader;
 import com.navercorp.volleyextensions.view.ZoomableNetworkImageView;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
 import fi.guagua.pixrayandroid.network.VolleySingleton;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 
 public class EnlargedImageActivity extends Activity {
@@ -22,9 +22,10 @@ public class EnlargedImageActivity extends Activity {
         Context mAppContext = getApplicationContext();
 
         Intent i = getIntent();
-        String url = i.getExtras().getString(Pixray.EXTRA_IMAGE_URL);
+        String url = i.getExtras().getString(Utility.EXTRA_IMAGE_URL);
 
-        ZoomableNetworkImageView zoomableImageView = (ZoomableNetworkImageView) findViewById(R.id.zoom_networkimageview);
+        ZoomableNetworkImageView zoomableImageView = (ZoomableNetworkImageView)
+                findViewById(R.id.zoom_networkimageview);
         ImageLoader mImageLoader = VolleySingleton.getInstance(mAppContext).getImageLoader();
         zoomableImageView.setImageUrl(url, mImageLoader);
 

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import fi.guagua.pixrayandroid.utils.Pixray;
 import fi.guagua.pixrayandroid.R;
+import fi.guagua.pixrayandroid.utils.Utility;
 
 public class InfoDialogFragment extends DialogFragment {
 
@@ -23,8 +23,8 @@ public class InfoDialogFragment extends DialogFragment {
     public static InfoDialogFragment newInstance(String date, String type) {
         InfoDialogFragment frag = new InfoDialogFragment();
         Bundle args = new Bundle();
-        args.putString(Pixray.EXTRA_GALLERY_DATE, date);
-        args.putString(Pixray.EXTRA_GALLERY_TYPE, type);
+        args.putString(Utility.EXTRA_GALLERY_DATE, date);
+        args.putString(Utility.EXTRA_GALLERY_TYPE, type);
         frag.setArguments(args);
         return frag;
     }
@@ -35,8 +35,8 @@ public class InfoDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_info_dialog, container);
         mDateInfo = (TextView) view.findViewById(R.id.date_info);
         mTypeInfo = (TextView) view.findViewById(R.id.type_info);
-        String date = getArguments().getString(Pixray.EXTRA_GALLERY_DATE);
-        String type = getArguments().getString(Pixray.EXTRA_GALLERY_TYPE);
+        String date = getArguments().getString(Utility.EXTRA_GALLERY_DATE);
+        String type = getArguments().getString(Utility.EXTRA_GALLERY_TYPE);
 
         getDialog().setTitle(R.string.gallery_info_title);
         mDateInfo.setText("Date is " + date);
