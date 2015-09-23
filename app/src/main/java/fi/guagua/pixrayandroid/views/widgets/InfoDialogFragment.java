@@ -39,8 +39,8 @@ public class InfoDialogFragment extends DialogFragment {
         String type = getArguments().getString(Utility.EXTRA_GALLERY_TYPE);
 
         getDialog().setTitle(R.string.gallery_info_title);
-        mDateInfo.setText("Date is " + date);
-        mTypeInfo.setText("Type is " + type);
+        mDateInfo.setText(getActivity().getString(R.string.date_is) + date);
+        mTypeInfo.setText(getActivity().getString(R.string.type_is) + type);
 
         Button okButton = (Button) view.findViewById(R.id.info_ok_button);
         okButton.setOnClickListener(new View.OnClickListener() {

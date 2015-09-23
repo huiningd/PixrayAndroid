@@ -22,10 +22,12 @@
     <string name="err.no.image">There is no image in this date. Please click DATE to select another date.</string>
 
     <string name="choose_score_below">Choose a score below:</string>
-    <string name="score">Score:</string>
+    <string name="score">Score: </string>
     <string name="change_score">Change Score</string>
-    <string name="sample">Sample:</string>
-    <string name="screen">Screen:</string>
+    <string name="date_is">Date is: </string>
+    <string name="type_is">Type is: </string>
+    <string name="sample">Sample: </string>
+    <string name="screen">Screen: </string>
     <string name="see_well_conditions">See Well Conditions</string>
     <string name="well_conditions">Well Conditions:</string>
     <string name="wcClass">Class:</string>

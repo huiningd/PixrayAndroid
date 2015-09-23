@@ -115,12 +115,12 @@ public class ImageFragment extends Fragment {
         // set sample name
         String sampleName = mImage.getSample();
         TextView imageSample = (TextView) mRootView.findViewById(R.id.singleImageSample);
-        imageSample.setText("Sample: " + sampleName);
+        imageSample.setText(getActivity().getString(R.string.sample) + sampleName);
 
         // set screen name
         String screenName = mImage.getScreenName();
         TextView imageScreen = (TextView) mRootView.findViewById(R.id.singleImageScreen);
-        imageScreen.setText("Screen: " + screenName);
+        imageScreen.setText(getActivity().getString(R.string.screen) + screenName);
 
         // check details of well-conditions
         final ArrayList<WellConditions> wcs = mImage.getWellConditionses();
